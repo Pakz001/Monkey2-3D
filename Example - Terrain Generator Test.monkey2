@@ -43,7 +43,7 @@ Class MyWindow Extends Window
 		If Keyboard.KeyReleased(Key.Space) Then startgame()
 		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
-		canvas.DrawText("Cursor up/down/left/right and Left mouse button - space = new map.",0,20)
+		canvas.DrawText("Cursor up/down/left/right a/z and Left mouse button - space = new map.",0,20)
 	End Method
 
 	Method startgame()
@@ -52,7 +52,7 @@ Class MyWindow Extends Window
 		If _camera Then _camera.Destroy()
 		If _light Then _light.Destroy()
 		If _material Then _material.Discard()		
-		
+		If _scene Then _scene.Terrains.Clear()
 		
 		_scene=Scene.GetCurrent()
 		
@@ -179,9 +179,9 @@ Function Fly( entity:Entity,view:View )
 	Endif
 	
 	If Keyboard.KeyDown( Key.A )
-		entity.MoveZ( .1 )	'( New Vec3f( 0,0,.1 ) )
+		entity.MoveZ( .5 )	'( New Vec3f( 0,0,.1 ) )
 	Else If Keyboard.KeyDown( Key.Z )
-		entity.MoveZ( -.1 )	'( New Vec3f( 0,0,-.1 ) )
+		entity.MoveZ( -.5 )	'( New Vec3f( 0,0,-.1 ) )
 	Endif
 		
 End Function
