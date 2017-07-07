@@ -53,6 +53,7 @@ Class MyWindow Extends Window
 		If _light Then _light.Destroy()
 		If _material Then _material.Discard()		
 		
+		
 		_scene=Scene.GetCurrent()
 		
 		_fog=New FogEffect( Color.Sky,480,512 )
@@ -76,7 +77,7 @@ Class MyWindow Extends Window
 		heightMap = makeheightmap()
 		
 		_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
-		
+		heightMap.Discard()
 	End Method
 	
 End
@@ -94,11 +95,12 @@ Function makeheightmap:Pixmap()
 
 	' This is a lambda function that increases the 
 	' color on the pixmap by a bit. 
-	Local myrect:=Lambda(x1:int,y1:Int,w:Int,h:int)
-		Local inc:Float=Rnd(0.01,0.1)
+	Local myrect:=Lambda(x1:int,y1:Int,w:Int,h:Int)
+		Local inc:Float=Rnd(-0.1,0.1)
 		For Local y2:=y1 Until y1+h
 		For Local x2:=x1 Until x1+w
 			If x2>=0 And x2<mapsize And y2>=0 And y2<mapsize
+				
 				Local mc:Color
 				mc = pm.GetPixel(x2,y2)				
 				Local r:Float=mc.r + inc
@@ -107,6 +109,9 @@ Function makeheightmap:Pixmap()
 				If r>1 Then r=1
 				If g>1 Then g=1
 				If b>1 Then b=1
+				If r<0 Then r=0
+				If g<0 Then g=0
+				If b<0 Then b=0
 				pm.SetPixel(x2,y2,New Color(r,g,b))
 			End If
 		Next
