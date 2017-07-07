@@ -1,16 +1,14 @@
-Namespace myapp
-
 #Import "<std>"
 #Import "<mojo>"
 #Import "<mojo3d>"
 
-#Import "assets/"
-
-#Import "util"
 
 Using std..
 Using mojo..
 Using mojo3d..
+
+Global mapsize:Int=512
+
 
 Class MyWindow Extends Window
 	
@@ -46,20 +44,20 @@ Class MyWindow Extends Window
 		_light=New Light
 		_light.RotateX( Pi/2 )	'aim directional light 'down' - Pi/2=90 degrees.
 		
-		_material = New PbrMaterial( Color.Silver,1,0.5 )
+		_material = New PbrMaterial( Color.Brown,1,0.5 )
 		_material.ScaleTextureMatrix( 32,32 )
 		
-		Local heightMap:= New Pixmap(512,512)
+		Local heightMap:= New Pixmap(mapsize,mapsize)
 		heightMap = makeheightmap()
 		
-		_terrain=New Terrain( heightMap,New Boxf( -512,0,-512,512,64,512 ),_material )
+		_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
 	
 		RequestRender()
 		
-
+		Fly( _camera,Self )
 		
 		_scene.Render( canvas,_camera )
 		
@@ -68,20 +66,28 @@ Class MyWindow Extends Window
 	
 End
 
+'
+' This function creates a pixmap with a random map
+' inside it for the use of the mojo3d terrain.
+'
+'
 Function makeheightmap:Pixmap()
+	SeedRnd(1) 'Different seed is different map
 	Local pm:Pixmap
-	pm = New Pixmap(512,512)
-	
-	
-	Local myrect:=Lambda(x1:int,y1:int,w:Int,h:int)
+	pm = New Pixmap(mapsize,mapsize)
+
+	' This is a lambda function that increases the 
+	' color on the pixmap by a bit. 
+	Local myrect:=Lambda(x1:int,y1:Int,w:Int,h:int)
+		Local inc:Float=Rnd(0.01,0.1)
 		For Local y2:=y1 Until y1+h
 		For Local x2:=x1 Until x1+w
-			If x2>=0 And x2<512 And y2>=0 And y2<512
+			If x2>=0 And x2<mapsize And y2>=0 And y2<mapsize
 				Local mc:Color
-				mc = pm.GetPixel(x2,y2)
-				Local r:Float=mc.r + 0.05
-				Local g:Float=mc.g + 0.05
-				Local b:Float=mc.b + 0.05
+				mc = pm.GetPixel(x2,y2)				
+				Local r:Float=mc.r + inc
+				Local g:Float=mc.g + inc
+				Local b:Float=mc.b + inc
 				If r>1 Then r=1
 				If g>1 Then g=1
 				If b>1 Then b=1
@@ -91,6 +97,11 @@ Function makeheightmap:Pixmap()
 		Next
 	End Lambda
 	
+	' This lambda takes one input coordinate where
+	' it takes a color and next and below it also a color
+	' this then is avaraged(divided by 3) and put back
+	' on the pixmap(blurring/smoothing it)
+	' 
 	Local blur:=Lambda(x1:Int,y1:Int)
 		Local c1:Color = pm.GetPixel(x1,y1)		
 		Local c2:Color = pm.GetPixel(x1+1,y1)
@@ -99,20 +110,61 @@ Function makeheightmap:Pixmap()
 		pm.SetPixel(x1,y1,New Color(nr,nr,nr))
 	End Lambda
 	
-	For Local i:=0 Until 450
-		Local x:Int=Rnd(-50,512)
-		Local y:Int=Rnd(-50,512)
-		Local w:Int=Rnd(5,125)
-		Local h:Int=Rnd(5,125)
+	' Here we create a map
+	For Local i:=0 Until (mapsize*mapsize)/500
+		Local x:Int=Rnd(-50,mapsize)
+		Local y:Int=Rnd(-50,mapsize)
+		Local w:Int=Rnd(5,mapsize/4)
+		Local h:Int=Rnd(5,mapsize/4)
 		myrect(x,y,w,h)
 	Next
 
-	For Local i:=0 Until (512*512)*3
-		blur(Rnd(1,511),Rnd(1,511))
+ 	For Local i:=0 Until (mapsize*mapsize)*3
+		blur(Rnd(1,mapsize-1),Rnd(1,mapsize-1))
 	Next
 
 	Return pm
 End Function
+
+' Taken from the mojo3d test
+Function Fly( entity:Entity,view:View )
+
+	If Keyboard.KeyDown( Key.Up )
+		entity.RotateX( .1 )
+	Else If Keyboard.KeyDown( Key.Down )
+		entity.RotateX( -.1 )
+	Endif
+	
+	If Keyboard.KeyDown( Key.Q )
+		entity.RotateZ( .1 )
+	Else If Keyboard.KeyDown( Key.W )
+		entity.RotateZ( -.1 )
+	Endif
+	
+	If Keyboard.KeyDown( Key.Left )
+		entity.RotateY( .1,True )
+	Else If Keyboard.KeyDown( Key.Right )
+		entity.RotateY( -.1,True )
+	Endif
+
+	If Mouse.ButtonDown( MouseButton.Left )
+		If Mouse.X<view.Width/3
+			entity.RotateY( .1,True )
+		Else If Mouse.X>view.Width/3*2
+			entity.RotateY( -.1,True )
+		Else
+			entity.Move( New Vec3f( 0,0,.1 ) )
+		Endif
+	Endif
+	
+	If Keyboard.KeyDown( Key.A )
+		entity.MoveZ( .1 )	'( New Vec3f( 0,0,.1 ) )
+	Else If Keyboard.KeyDown( Key.Z )
+		entity.MoveZ( -.1 )	'( New Vec3f( 0,0,-.1 ) )
+	Endif
+		
+End Function
+
 
 Function Main()
 
