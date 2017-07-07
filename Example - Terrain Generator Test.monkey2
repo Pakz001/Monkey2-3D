@@ -28,6 +28,31 @@ Class MyWindow Extends Window
 
 		Super.New( title,width,height,flags )
 		
+		startgame()
+
+	End Method
+	
+	Method OnRender( canvas:Canvas ) Override
+	
+		RequestRender()
+		
+		Fly( _camera,Self )
+		
+		_scene.Render( canvas,_camera )
+		
+		If Keyboard.KeyReleased(Key.Space) Then startgame()
+		
+		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
+		canvas.DrawText("Cursor up/down/left/right and Left mouse button - space = new map.",0,20)
+	End Method
+
+	Method startgame()
+		
+		If _terrain Then _terrain.Destroy()
+		If _camera Then _camera.Destroy()
+		If _light Then _light.Destroy()
+		If _material Then _material.Discard()		
+		
 		_scene=Scene.GetCurrent()
 		
 		_fog=New FogEffect( Color.Sky,480,512 )
@@ -51,20 +76,11 @@ Class MyWindow Extends Window
 		heightMap = makeheightmap()
 		
 		_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
-	End
-	
-	Method OnRender( canvas:Canvas ) Override
-	
-		RequestRender()
 		
-		Fly( _camera,Self )
-		
-		_scene.Render( canvas,_camera )
-		
-		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
-	End
+	End Method
 	
 End
+
 
 '
 ' This function creates a pixmap with a random map
@@ -72,7 +88,7 @@ End
 '
 '
 Function makeheightmap:Pixmap()
-	SeedRnd(1) 'Different seed is different map
+	SeedRnd(Millisecs()) 'Different seed is different map
 	Local pm:Pixmap
 	pm = New Pixmap(mapsize,mapsize)
 
