@@ -7,8 +7,8 @@ Using std..
 Using mojo..
 Using mojo3d..
 
-Global mapwidth:Int=50
-Global mapheight:Int=50
+Global mapwidth:Int=60
+Global mapheight:Int=60
 
 
 Class MyWindow Extends Window
@@ -58,7 +58,7 @@ Class MyWindow Extends Window
 		'
 		_camera=New Camera
 		_camera.Near=1
-		_camera.Far=512
+		_camera.Far=256
 		_camera.Move( 0,16,0 )
 		
 		'create light
@@ -67,7 +67,7 @@ Class MyWindow Extends Window
 		_light.RotateX( Pi/2 )	'aim directional light 'down' - Pi/2=90 degrees.
 
 		'Create a ground
-		Local groundBox:=New Boxf( -60,-1,-60,60,0,60 )		
+		Local groundBox:=New Boxf( -mapwidth*2,-1,-mapheight*2,mapwidth*2,0,mapheight*2 )		
 		_ground=Model.CreateBox( groundBox,16,16,16,New PbrMaterial( Color.Grey ) )
 
 		' Here we create the random map
