@@ -7,8 +7,8 @@ Using std..
 Using mojo..
 Using mojo3d..
 
-Global mapwidth:Int=60
-Global mapheight:Int=60
+Global mapwidth:Int=80
+Global mapheight:Int=80
 
 
 Class MyWindow Extends Window
@@ -59,7 +59,7 @@ Class MyWindow Extends Window
 		_camera=New Camera
 		_camera.Near=1
 		_camera.Far=256
-		_camera.Move( 0,16,0 )
+		_camera.Move( 0,2,0 )
 		
 		'create light
 		'
@@ -74,15 +74,38 @@ Class MyWindow Extends Window
 		Local mymap:Int[,] = New Int[0,0]
 		mymap = makemap()
 		' Put it in the scene
-		For Local y:=0 Until mapheight
-		For Local x:=0 Until mapwidth
-			If mymap[x,y] = 1
-				Local mymesh := Mesh.CreateBox( New Boxf( -1,-15,-1,1,15,1 ),1,1,1 )
-				Local material:=New PbrMaterial( New Color( Rnd(0.5,0.6),0,0) )
+		For Local y:=0 Until mapheight-2
+		For Local x:=0 Until mapwidth-2
+			'make walls on the x 
+			If mymap[x,y] = 1 And mymap[x+1,y] = 1
+				Local sx:Int=0
+				Local cnt:Float=-1
+				While mymap[x+sx,y] = 1
+					mymap[x+sx,y] = 0
+					sx+=1
+					cnt+=1
+				Wend
+				Local mymesh := Mesh.CreateBox( New Boxf( -1,-15,-1,cnt*2+1,15,1 ),1,1,1 )
+				Local material:=New PbrMaterial( New Color( Rnd(0.0,0.6),0,0) )
 				Local model:=New Model( mymesh,material )
-				model.Move( x*2-mapwidth/2,10,y*2-mapheight/2 )
+				model.Move( x*2-mapwidth/2,10,y*2-mapheight/2 )				
+				
 			End If
+			' make walls on the y
+			If mymap[x,y] = 1 And mymap[x,y+1] = 1
+				Local sy:Int=0
+				Local cnt:float=-1
+				While mymap[x,y+sy] = 1
+					mymap[x,y+sy] = 0
+					sy+=1
+					cnt+=1
+				Wend				
+				Local mymesh := Mesh.CreateBox( New Boxf( -1,-15,-1,1,15,cnt*2+1 ),1,1,1 )
+				Local material:=New PbrMaterial( New Color( Rnd(0.0,0.6),0,0) )
+				Local model:=New Model( mymesh,material )
+				model.Move( x*2-mapwidth/2,10,y*2-mapheight/2 )				
 
+			End If
 		Next
 		Next	
 
