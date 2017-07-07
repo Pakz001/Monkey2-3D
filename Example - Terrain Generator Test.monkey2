@@ -52,9 +52,14 @@ Class MyWindow Extends Window
 		If _camera Then _camera.Destroy()
 		If _light Then _light.Destroy()
 		If _material Then _material.Discard()		
-		If _scene Then _scene.Terrains.Clear()
+		If _scene Then 
+			_scene.Terrains.Clear()
+		End If
+			
 		
-		_scene=Scene.GetCurrent()
+		
+		_scene = Scene.GetCurrent()
+		
 		
 		_fog=New FogEffect( Color.Sky,480,512 )
 		
