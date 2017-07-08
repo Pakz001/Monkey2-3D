@@ -64,7 +64,7 @@ Class MyWindow Extends Window
 		_scene = Scene.GetCurrent()
 		
 		
-		_fog=New FogEffect( Color.Sky,480,512 )
+		_fog=New FogEffect( Color.Black,480,512 )
 		
 		'create camera
 		'
@@ -77,7 +77,7 @@ Class MyWindow Extends Window
 		'
 		_light=New Light
 		_light.RotateX( Pi/2 )	'aim directional light 'down' - Pi/2=90 degrees.
-
+		
 
 		Local waterMaterial:=New WaterMaterial
 		waterMaterial.ScaleTextureMatrix( 10,10 )
@@ -94,8 +94,9 @@ Class MyWindow Extends Window
 		_material = New PbrMaterial( New Color(.5,.05,0),1,0.5 )
 		_material.ScaleTextureMatrix( 32,32 )
 		
+		
 		Local heightMap:= New Pixmap(mapsize,mapsize)
-		heightMap = makeheightmap()
+		heightMap = makeheightmap()		
 		
 		_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
 		heightMap.Discard()
@@ -163,42 +164,31 @@ Function makeheightmap:Pixmap()
 	Next
 
 	'blur some
- 	For Local i:=0 Until (mapsize*mapsize)*5
+ 	For Local i:=0 Until (mapsize*mapsize)*3
 		blur(Rnd(1,mapsize-1),Rnd(1,mapsize-1))
 	Next
 
 	For Local y:Int = 4 Until mapsize-5
 	For Local x:Int = 4 Until mapsize-5
-		If pm.GetPixel(x,y).r < .3
-			pm.SetPixel(x,y,New Color(0,0,0))
-
-			Local g1:Float=pm.GetPixel(x,y).r
-			Local g2:Float=pm.GetPixel(x+1,y).r
-			Local g3:Float=pm.GetPixel(x,y+1).r
-			Local g4:Float=pm.GetPixel(x+1,y+1).r
-			Local g5:Float=(g1+g2+g3+g4)/4
-			pm.SetPixel(x,y,New Color(g5,g5,g5))
+		If pm.GetPixel(x,y).r < .25 And pm.GetPixel(x,y).r >.15
+			Local h:Float=.16
+			pm.SetPixel(x,y,New Color(h,h,h))
 		End If
 	Next
 	Next
 
 	For Local y:Int = 0 Until mapsize-2
 	For Local x:Int = 0 Until mapsize-2
-		If pm.GetPixel(x,y).r < .25 And pm.GetPixel(x,y).r >= .1
-			pm.SetPixel(x,y,New Color(.1,.1,.1))
-		Local g1:Float=pm.GetPixel(x,y).r
-		Local g2:Float=pm.GetPixel(x+1,y).r
-		Local g3:Float=pm.GetPixel(x,y+1).r
-		Local g4:Float=pm.GetPixel(x+1,y+1).r
-		Local g5:Float=(g1+g2+g3+g4)/4
-		pm.SetPixel(x,y,New Color(g5,g5,g5))			
+		If pm.GetPixel(x,y).r < .5 And pm.GetPixel(x,y).r > .30
+		Local h:Float=.31
+		pm.SetPixel(x,y,New Color(h,h,h))		
 		End If
 
 	Next
 	Next
-
+'
 	'blur some
- 	For Local i:=0 Until (mapsize*mapsize)*5
+ 	For Local i:=0 Until (mapsize*mapsize)*3
 		blur(Rnd(1,mapsize-1),Rnd(1,mapsize-1))
 	Next
 
