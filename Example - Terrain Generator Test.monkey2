@@ -97,6 +97,7 @@ Function makeheightmap:Pixmap()
 	SeedRnd(Millisecs()) 'Different seed is different map
 	Local pm:Pixmap
 	pm = New Pixmap(mapsize,mapsize)
+	pm.Clear(Color.Black)
 
 	' This is a lambda function that increases the 
 	' color on the pixmap by a bit. 
