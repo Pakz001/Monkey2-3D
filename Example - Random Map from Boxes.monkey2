@@ -22,7 +22,7 @@ Class MyWindow Extends Window
 	Field _light:Light
 
 	Field _ground:Model
-	
+
 	Method New( title:String="Simple mojo app",width:Int=640,height:Int=480,flags:WindowFlags=WindowFlags.Resizable )
 
 		Super.New( title,width,height,flags )
@@ -37,12 +37,17 @@ Class MyWindow Extends Window
 		
 		Fly( _camera,Self )
 		
+		If Mouse.X < 200 Then _camera.RotateY(0.1)
+		If Mouse.X > Width-200 Then _camera.RotateY(-0.1)
+		
+		
 		_scene.Render( canvas,_camera )
 		
 		If Keyboard.KeyReleased(Key.Space) Then startgame()
 		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
-		canvas.DrawText("Cursor up/down/left/right and Left mouse button - space = new map.",0,20)
+		canvas.DrawText("a/z - Cursor up/down/left/right and Left mouse button - space = new map.",0,20)
+		canvas.DrawText("Move mouse to edges to turn left and right.",0,40)
 	End Method
 
 	Method startgame()
@@ -110,6 +115,7 @@ Class MyWindow Extends Window
 		Next	
 
 	End Method
+
 	
 End
 
@@ -169,6 +175,7 @@ End Function
 
 ' Taken from the mojo3d test
 Function Fly( entity:Entity,view:View )
+
 
 	If Keyboard.KeyDown( Key.Up )
 		entity.RotateX( .1 )
