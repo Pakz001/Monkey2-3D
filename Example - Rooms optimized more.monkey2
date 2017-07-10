@@ -385,12 +385,13 @@ Class MyWindow Extends Window
 		_light=New Light
 		_light.RotateX( Pi/2 )	'aim directional light downwards - Pi/2=90 degrees.
 
-		For Local z:Int=-7 To 7	 Step 6
-		For Local x:int=-7 To 7 Step 6
+		
+		For Local z:Int=-14 To 14 Step 6
+		For Local x:int=-14 To 14 Step 6
 			myworld.makebackwall()
-			myworld.makeleftsidewall()		
+'			myworld.makeleftsidewall()		
 			myworld.makerightsidewall()
-			myworld.makefrontwall()
+'			myworld.makefrontwall()
 			myworld.makebottom()
 			myworld.maketop()
 			For Local i:=Eachin mymodels
