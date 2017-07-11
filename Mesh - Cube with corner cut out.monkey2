@@ -39,20 +39,20 @@ Class MyWindow Extends Window
 		Local vertices:=New Vertex3f[14]
 		' negative z is towards the camera,
 		' Front side of cube with corner out
-		vertices[0 ].position=New Vec3f(  -1, 1, -1 )
-		vertices[1 ].position=New Vec3f(   0, 1, -1 )
-		vertices[2 ].position=New Vec3f(   0,-1, -1 )
-		vertices[3 ].position=New Vec3f(  -1,-1, -1 )
-		vertices[4 ].position=New Vec3f(   0, 1,  0 )
-		vertices[5 ].position=New Vec3f(   1, 1,  0 )
-		vertices[6 ].position=New Vec3f(   1,-1,  0 )
-		vertices[7 ].position=New Vec3f(   0,-1,  0 )
-		vertices[8 ].position=New Vec3f(   1, 1,  1 )
-		vertices[9 ].position=New Vec3f(  -1, 1,  1 )
-		vertices[10].position=New Vec3f(  -1,-1,  1 ) 
-		vertices[11].position=New Vec3f(   1,-1,  1 )
-		vertices[12].position=New Vec3f(  -1, 1,  0 )
-		vertices[13].position=New Vec3f(  -1, 0, -1 )
+		vertices[0 ].position=New Vec3f(  -1, 1, -1 ) 'left top front
+		vertices[1 ].position=New Vec3f(   0, 1, -1 ) 'middle top front
+		vertices[2 ].position=New Vec3f(   0,-1, -1 ) 'middle bottom front
+		vertices[3 ].position=New Vec3f(  -1,-1, -1 ) 'left bottom front
+		vertices[4 ].position=New Vec3f(   0, 1,  0 ) 'middle middle front
+		vertices[5 ].position=New Vec3f(   1, 1,  0 ) 'right middle front
+		vertices[6 ].position=New Vec3f(   1,-1,  0 ) 'right middle front
+		vertices[7 ].position=New Vec3f(   0,-1,  0 ) 'middle bottom front
+		vertices[8 ].position=New Vec3f(   1, 1,  1 ) 'backside right top
+		vertices[9 ].position=New Vec3f(  -1, 1,  1 ) 'topview left top
+		vertices[10].position=New Vec3f(  -1,-1,  1 ) 'bottomview left bottom
+		vertices[11].position=New Vec3f(   1,-1,  1 ) 'bottomview right bottom
+		vertices[12].position=New Vec3f(  -1, 1,  0 ) 'topview left center
+		vertices[13].position=New Vec3f(  -1, 0, -1 ) 'bottomview left center
 		Local indices:=New UInt[60]
 		' Front side
 		indices[0]=0
