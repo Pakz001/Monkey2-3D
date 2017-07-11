@@ -362,6 +362,9 @@ Class MyWindow Extends Window
 	Field _light:Light
 	
 	Field _model:Model
+
+	Field _ground:Model
+	Field _ceiling:Model
 	
 	Field myworld:world
 	
@@ -385,6 +388,14 @@ Class MyWindow Extends Window
 		_light=New Light
 		_light.RotateX( Pi/2 )	'aim directional light downwards - Pi/2=90 degrees.
 
+
+		'Create a ground
+		Local groundBox:=New Boxf( -20,-3,-20,20,-2,20 )		
+		_ground=Model.CreateBox( groundBox,16,16,16,New PbrMaterial( Color.Grey ) )
+		'Create a ceiling
+		Local ceilingbox:=New Boxf( -20,2,-20,20,3,20 )		
+		_ceiling=Model.CreateBox( ceilingbox,16,16,16,New PbrMaterial( Color.Red ) )
+
 		
 		For Local z:Int=-14 To 14 Step 6
 		For Local x:int=-14 To 14 Step 6
@@ -392,8 +403,8 @@ Class MyWindow Extends Window
 '			myworld.makeleftsidewall()		
 			myworld.makerightsidewall()
 '			myworld.makefrontwall()
-			myworld.makebottom()
-			myworld.maketop()
+'			myworld.makebottom()
+			'myworld.maketop()
 			For Local i:=Eachin mymodels
 				i.MoveX(x)
 				i.MoveZ(z)
