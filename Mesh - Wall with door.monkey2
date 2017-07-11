@@ -37,30 +37,30 @@ Class MyWindow Extends Window
 		'create Wall(cube sized) with door mesh
 		'
 		Local vertices:=New Vertex3f[20]
-		'
+		' negative z is towards the camera,
 		' Front side of wall with door
-		vertices[0].position=New Vec3f(  -1, 1, 1 ) 'left front top (x,y,z)
-		vertices[1].position=New Vec3f(   1, 1, 1 ) 'right top frontview
-		vertices[2].position=New Vec3f(   1, 0, 1 ) 'right middle front
-		vertices[3].position=New Vec3f(  -1, 0, 1 ) 'left middle front
-		vertices[4].position=New Vec3f( -.5, 0, 1 ) 'left top door front
-		vertices[5].position=New Vec3f( -.5,-1, 1 ) 'left botton door front
-		vertices[6].position=New Vec3f(  -1,-1, 1 ) 'left bottom front
-	 	vertices[7].position=New Vec3f(  .5, 0, 1 ) 'right top door front
-	 	vertices[8].position=New Vec3f(   1,-1, 1 ) 'right bottom front
-	 	vertices[9].position=New Vec3f(  .5,-1, 1 ) 'right bottom door front
+		vertices[0].position=New Vec3f(  -1, 1, -1 ) 'left front top (x,y,z)
+		vertices[1].position=New Vec3f(   1, 1, -1 ) 'right top frontview
+		vertices[2].position=New Vec3f(   1, 0, -1 ) 'right middle front
+		vertices[3].position=New Vec3f(  -1, 0, -1 ) 'left middle front
+		vertices[4].position=New Vec3f( -.5, 0, -1 ) 'left top door front
+		vertices[5].position=New Vec3f( -.5,-1, -1 ) 'left botton door front
+		vertices[6].position=New Vec3f(  -1,-1, -1 ) 'left bottom front
+	 	vertices[7].position=New Vec3f(  .5, 0, -1 ) 'right top door front
+	 	vertices[8].position=New Vec3f(   1,-1, -1 ) 'right bottom front
+	 	vertices[9].position=New Vec3f(  .5,-1, -1 ) 'right bottom door front
  		'
  		' Back side of wall with door
-		vertices[10].position=New Vec3f(  -1, 1, -1 ) 'left front top
-		vertices[11].position=New Vec3f(   1, 1, -1 ) 'right top frontview
-		vertices[12].position=New Vec3f(   1, 0, -1 ) 'right middle front
-		vertices[13].position=New Vec3f(  -1, 0, -1 ) 'left middle front
-		vertices[14].position=New Vec3f( -.5, 0, -1 ) 'left top door front
-		vertices[15].position=New Vec3f( -.5,-1, -1 ) 'left botton door front
-		vertices[16].position=New Vec3f(  -1,-1, -1 ) 'left bottom front
-	 	vertices[17].position=New Vec3f(  .5, 0, -1 ) 'right top door front
-	 	vertices[18].position=New Vec3f(   1,-1, -1 ) 'right bottom front
-	 	vertices[19].position=New Vec3f(  .5,-1, -1 ) 'right bottom door front
+		vertices[10].position=New Vec3f(  -1, 1, 1 ) 'left front top
+		vertices[11].position=New Vec3f(   1, 1, 1 ) 'right top frontview
+		vertices[12].position=New Vec3f(   1, 0, 1 ) 'right middle front
+		vertices[13].position=New Vec3f(  -1, 0, 1 ) 'left middle front
+		vertices[14].position=New Vec3f( -.5, 0, 1 ) 'left top door front
+		vertices[15].position=New Vec3f( -.5,-1, 1 ) 'left botton door front
+		vertices[16].position=New Vec3f(  -1,-1, 1 ) 'left bottom front
+	 	vertices[17].position=New Vec3f(  .5, 0, 1 ) 'right top door front
+	 	vertices[18].position=New Vec3f(   1,-1, 1 ) 'right bottom front
+	 	vertices[19].position=New Vec3f(  .5,-1, 1 ) 'right bottom door front
   		'
   
 		Local indices:=New UInt[66]
