@@ -437,9 +437,9 @@ Function Fly( entity:Entity,view:View )
 
 
 	If Keyboard.KeyDown( Key.Up )
-		entity.RotateX( .1 )
+		entity.RotateX( 1 )
 	Else If Keyboard.KeyDown( Key.Down )
-		entity.RotateX( -.1 )
+		entity.RotateX( -1 )
 	Endif
 	
 	If Keyboard.KeyDown( Key.Q )
@@ -449,9 +449,9 @@ Function Fly( entity:Entity,view:View )
 	Endif
 	
 	If Keyboard.KeyDown( Key.Left )
-		entity.RotateY( .1,True )
+		entity.RotateY( 1,True )
 	Else If Keyboard.KeyDown( Key.Right )
-		entity.RotateY( -.1,True )
+		entity.RotateY( -1,True )
 	Endif
 
 	If Mouse.ButtonDown( MouseButton.Left )
