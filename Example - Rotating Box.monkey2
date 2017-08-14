@@ -53,7 +53,7 @@ Class MyWindow Extends Window
 	
 		RequestRender()
 		
-		mybox.Rotate(.05,.05,.05) 'rotate the box (x,y,z)
+		mybox.Rotate(3,3,3) 'rotate the box (x,y,z)
 		
 		myscene.Render( canvas,mycamera ) 'render the 3d scene
 		
