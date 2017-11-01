@@ -54,10 +54,10 @@ Class MyWindow Extends Window
 		RequestRender()
 		
 		' Primitive Mouse Movement
-		If Mouse.X < 250 Then mycamera.RotateY(0.04)
-		If Mouse.X > Width - 250 Then mycamera.RotateY(-0.04)
+		If Mouse.X < 250 Then mycamera.RotateY(0.4)
+		If Mouse.X > Width - 250 Then mycamera.RotateY(-0.4)
 		
-		mybox.Rotate(.05,.05,.05) 'rotate the box (x,y,z)
+		mybox.Rotate(.5,.5,.5) 'rotate the box (x,y,z)
 		
 		myscene.Render( canvas,mycamera ) 'render the 3d scene
 		
