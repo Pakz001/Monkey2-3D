@@ -443,9 +443,9 @@ Function Fly( entity:Entity,view:View )
 	Endif
 	
 	If Keyboard.KeyDown( Key.Q )
-		entity.RotateZ( .1 )
+		entity.RotateZ( 1 )
 	Else If Keyboard.KeyDown( Key.W )
-		entity.RotateZ( -.1 )
+		entity.RotateZ( -1 )
 	Endif
 	
 	If Keyboard.KeyDown( Key.Left )
@@ -456,25 +456,28 @@ Function Fly( entity:Entity,view:View )
 
 	If Mouse.ButtonDown( MouseButton.Left )
 		If Mouse.X<view.Width/3
-			entity.RotateY( .1,True )
+			entity.RotateY( 1,True )
 		Else If Mouse.X>view.Width/3*2
-			entity.RotateY( -.1,True )
+			entity.RotateY( -1,True )
 		Else
-			entity.Move( New Vec3f( 0,0,.1 ) )
+			entity.Move( New Vec3f( 0,0,1 ) )
 		Endif
 	Endif
 	
 	If Keyboard.KeyDown( Key.A )
-		entity.MoveZ( .5 )	'( New Vec3f( 0,0,.1 ) )
+		entity.MoveZ( .1 )	'( New Vec3f( 0,0,.1 ) )
 	Else If Keyboard.KeyDown( Key.Z )
-		entity.MoveZ( -.5 )	'( New Vec3f( 0,0,-.1 ) )
+		entity.MoveZ( -.1 )	'( New Vec3f( 0,0,-.1 ) )
 	Endif
 		
 End Function
  
 Function Main()
-	
-	New AppInstance
+	' This seems to improve the speed. Forward rendering.
+	Local config:=new StringMap<String>
+	config["mojo3d_forward"]="forward-direct"
+	config["GL_depth_buffer_enabled"]=1
+	New AppInstance(config)
 	New MyWindow
 	App.Run()
 End
