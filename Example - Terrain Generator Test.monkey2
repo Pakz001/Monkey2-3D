@@ -22,7 +22,7 @@ Class MyWindow Extends Window
 	
 	Field _material:Material
 	
-	Field _terrain:Terrain
+	Field _terrain:Model
 	
 	Method New( title:String="Simple mojo app",width:Int=640,height:Int=480,flags:WindowFlags=WindowFlags.Resizable )
 
@@ -48,10 +48,11 @@ Class MyWindow Extends Window
 
 	Method startgame()
 		
-		If _terrain Then _terrain.Destroy()
-		If _camera Then _camera.Destroy()
-		If _light Then _light.Destroy()
-		If _material Then _material.Discard()		
+		If _scene Then _scene.DestroyAllEntities()
+		'If _terrain Then _terrain.Destroy()
+		'If _camera Then _camera.Destroy()
+		'If _light Then _light.Destroy()
+		'If _material Then _material.Discard()		
 			
 		
 		
@@ -78,7 +79,9 @@ Class MyWindow Extends Window
 		Local heightMap:= New Pixmap(mapsize,mapsize)
 		heightMap = makeheightmap()
 		
-		_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
+		'_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
+		_terrain=Model.CreateTerrain( heightMap,New Boxf( -256,0,-256,256,32,256 ),_material )
+		_terrain.CastsShadow=False		
 		heightMap.Discard()
 	End Method
 	
@@ -182,9 +185,9 @@ Function Fly( entity:Entity,view:View )
 	Endif
 	
 	If Keyboard.KeyDown( Key.A )
-		entity.MoveZ( 3 )	'( New Vec3f( 0,0,.1 ) )
+		entity.MoveZ( 1 )	'( New Vec3f( 0,0,.1 ) )
 	Else If Keyboard.KeyDown( Key.Z )
-		entity.MoveZ( -3 )	'( New Vec3f( 0,0,-.1 ) )
+		entity.MoveZ( -1 )	'( New Vec3f( 0,0,-.1 ) )
 	Endif
 		
 End Function
