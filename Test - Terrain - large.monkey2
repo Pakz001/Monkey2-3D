@@ -7,13 +7,14 @@ Using std..
 Using mojo..
 Using mojo3d..
 
-Global mapsize:Int=712
-Global playmapsize:Int=256
+Global mapsize:Int=2048
+Global playmapsize:Int=512
 Global mainmap:Pixmap
 Global rotatex:Double
 Global rotatey:Double
 Global rotatez:Double
-
+Global mapx:Double
+Global mapz:Double
 
 
 Class MyWindow Extends Window
@@ -49,9 +50,9 @@ Class MyWindow Extends Window
 		RequestRender()
 		
 		Fly( _camera,Self )
-		posx = _camera.Position.X
-		posy = _camera.Position.Y
-		posz = _camera.Position.Z
+		posx = _camera.Position.x/2
+		posy = _camera.Position.y
+		posz = _camera.Position.z/2
 		
 		
 		_scene.Render( canvas,_camera )
@@ -60,7 +61,7 @@ Class MyWindow Extends Window
 		If Keyboard.KeyReleased(Key.Space) Then centermap()
 		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
-		canvas.DrawText("Cursor up/down/left/right a/z and Left mouse button - space = new map.",0,20)
+		canvas.DrawText("Cursor up/down/left/right a/z and Left mouse button - space = refresh center.",0,20)
 	End Method
 
 	Method startgame()
@@ -102,13 +103,14 @@ Class MyWindow Extends Window
 		heightMap = getmap(mapsize/2,mapsize/2)
 		Print "d"
 		'_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
-		_terrain=Model.CreateTerrain( heightMap,New Boxf( -256,0,-256,256,32,256 ),_material )
+		_terrain=Model.CreateTerrain( heightMap,New Boxf( -512,0,-512,512,32,512 ),_material )
 		_terrain.CastsShadow=False		
 		heightMap.Discard()
 	End Method
 	
 	Method centermap()
-			
+			mapx += posx
+			mapz += posz
 			If _scene Then _scene.DestroyAllEntities()
 			'If _terrain Then _terrain.Destroy()
 			'If _camera Then _camera.Destroy()
@@ -142,10 +144,10 @@ Class MyWindow Extends Window
 			
 			Local heightMap:= New Pixmap(playmapsize,playmapsize)
 	
-			heightMap = getmap((mapsize/2)-posx,(mapsize/2)-posz)
+			heightMap = getmap((mapsize/2)+mapx,(mapsize/2)+mapz)
 			
 			'_terrain=New Terrain( heightMap,New Boxf( -mapsize,0,-mapsize,mapsize,64,mapsize ),_material )
-			_terrain=Model.CreateTerrain( heightMap,New Boxf( -256,0,-256,256,32,256 ),_material )
+			_terrain=Model.CreateTerrain( heightMap,New Boxf( -512,0,-512,512,32,512 ),_material )
 			_terrain.CastsShadow=False		
 			heightMap.Discard()
 	
