@@ -7,7 +7,7 @@ Using std..
 Using mojo..
 Using mojo3d..
 
-Global mapsize:Int=256
+Global mapsize:Int=512
 
 
 Class MyWindow Extends Window
@@ -100,27 +100,32 @@ Function makeheightmap:Pixmap()
 	pm.Clear(Color.Black)
 
 	' Create random points on the map
-	For Local y:Int=0 Until mapsize
-	For Local x:Int=0 Until mapsize		
+	For Local i:Int=0 Until mapsize
+		Local x:Int=Rnd(mapsize)
+		Local y:Int=Rnd(mapsize)
+
 		Local ran:Float = Rnd(0,1)
+		'If Rnd()<.1 Then ran=1
+		
 		pm.SetPixel(x,y,New Color(ran,ran,ran))
 	Next
-	Next
+	
 	
 	'smooth the map
-	For Local i:Int=0 Until 3
-		For Local y:Int=0 Until mapsize
-		For Local x:Int=0 Until mapsize
+	For Local i:Int=0 Until mapsize*mapsize*10
+			Local x:Int=Rnd(mapsize)
+			Local y:Int=Rnd(mapsize)
 			Local mc:Color
 			Local mr:Float
 			mc = pm.GetPixel(x,y)
 			mr = mc.r
 			For Local x1:Int=-1 To 1
 			For Local y1:Int=-1 To 1
+				If x1=0 And y1 = 0 Then Continue
 				Local x2:Int=x+x1
 				Local y2:Int=y+y1
 				If x2<0 Or x2>=mapsize Or y2<0 Or y2>=mapsize Then Continue
-				If Rnd()<.5 Then Continue
+				'If Rnd()<.5 Then Continue
 				'If (x1=0 And y1=0) Then Continue
 				Local mc2:Color
 				Local mr2:Float
@@ -135,19 +140,34 @@ Function makeheightmap:Pixmap()
 				
 				  	pm.SetPixel(x2,y2,mc3)
 
-					Elseif mr<mr2
-					mr3 = mr + (Abs(mr2-mr)/2)
-					mc3 = New Color(mr3,mr3,mr3)
+'					Elseif mr<mr2
+'					mr3 = mr + (Abs(mr2-mr)/2)
+'					mc3 = New Color(mr3,mr3,mr3)
 				
-					pm.SetPixel(x2,y2,mc3)
- 
-					'mr3 = mr2/2
+'					pm.SetPixel(x2,y2,mc3)
+' 
+'					'mr3 = mr2/2
 				End If
 				
 			Next
 			Next
-		Next
-		Next
+	Next
+	
+	'stretch
+	For Local y:Int=0 Until mapsize
+	For Local x:Int=0 Until mapsize
+		Local mc:Color
+		Local mr:Float
+		mc = pm.GetPixel(x,y)
+		mr = mc.r
+		'mr = (mr*9)
+		'If mr>.5 Then mr=1
+		If mr<.5 Then mr/=2
+		If mr>1 Then Print "to high"+mr
+		If mr<0 Then Print "to low"+mr
+		mc = New Color(mr,mr,mr)
+		pm.SetPixel(x,y,mc)
+	Next
 	Next
 	
 	Return pm
