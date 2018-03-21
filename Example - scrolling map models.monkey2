@@ -29,7 +29,7 @@ Class MyWindow Extends Window
 		worldmap = New Int[100,100]
 		For Local y:Int=0 Until 100
 		For Local x:Int=0 Until 100
-			worldmap[x,y] = Rnd(0,4)
+			worldmap[x,y] = Rnd(0,20)
 		Next
 		Next
 		
@@ -62,7 +62,7 @@ Class MyWindow Extends Window
 		RequestRender()
 		
 		scrollmap()		
-		
+
 		_scene.Render( canvas,_camera )
  
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
@@ -98,7 +98,10 @@ Class MyWindow Extends Window
 	Method createmap()
 		'Destroy all models
 		_scene.DestroyAllEntities()
-
+		_light=New Light
+		_light.Move(100,0,0)
+		_light.CastsShadow = True
+		_light.PointAt(New Vec3f(0,0,0))
 		' Draw the map
 		For Local y:Int=0 Until 10
 		For Local x:Int=0 Until 10
@@ -123,7 +126,7 @@ Class MyWindow Extends Window
 				_model.Material=New PbrMaterial( Color.Green)
 				Case 2
 				_model.Material=New PbrMaterial( Color.Blue)
-				Case 3
+				Default
 				_model.Material=New PbrMaterial( Color.Black)				
 			End Select
 			_model.Material.CullMode=CullMode.None
@@ -131,6 +134,7 @@ Class MyWindow Extends Window
 			
 		Next
 		Next
+
 	End Method	
 	
 	' Create a square
