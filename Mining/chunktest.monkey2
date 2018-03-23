@@ -15,6 +15,9 @@ Class MyWindow Extends Window
 	Field _light:Light
 	
 	Field _model:Model
+	
+	Field _rectCanvas:Canvas
+	Field _rectImage:Image	
 
 	Method New()
 		
@@ -72,8 +75,8 @@ Class MyWindow Extends Window
 				If x-1>=0 And chunk[x-1,y,z] <> 0 Then sides[1] = False Else sides[1] = true
 				If z+1<chunkdepth And chunk[x,y,z+1] <> 0 Then sides[2] = False Else sides[2] = True
 				If x+1<chunkwidth And chunk[x+1,y,z] <> 0 Then sides[3] = False Else sides[3] = True
-				If y-1>=0 And chunk[x,y-1,z] <> 0 Then sides[4] = False Else sides[4] = true
-				If y+1<chunkheight And chunk[x,y+1,z] <> 0 Then sides[5] = False Else sides[5] = True
+				If y+1<chunkheight And chunk[x,y+1,z] <> 0 Then sides[4] = False Else sides[4] = True
+				If y-1>=0 And chunk[x,y-1,z] <> 0 Then sides[5] = False Else sides[5] = True				
 				Local mesh2:=createcube(x*2,y*2,z*2,sides)								
 				chunkmesh.AddMesh(mesh2)
 			endif
@@ -84,21 +87,36 @@ Class MyWindow Extends Window
 		chunkmesh.UpdateNormals()
 		_model=New Model
 		_model.Mesh=chunkmesh
-		_model.Material=New PbrMaterial( Color.Green )
-		_model.Material.CullMode=CullMode.None
+		'_model.Material=New PbrMaterial( Color.Green )
+		'_model.Material.CullMode=CullMode.None
  		'_model.Move(2,0,0)
+		_model.Mesh=chunkmesh
+		_model.Materials = _model.Materials.Resize(chunkmesh.NumMaterials)	
 
+	 	Local sm:= New PbrMaterial()
+		
+		_rectImage=New Image( 256, 256 )
+	 
+		_rectCanvas=New Canvas( _rectImage )
+	
+		sm.ColorTexture = _rectImage.Texture
+	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
+		sm.CullMode=CullMode.None
+	 
+ 
+		_model.Materials[chunkmesh.NumMaterials - 1] = sm
 		
 	End Method
 	
 	Method OnRender( canvas:Canvas ) Override
  
 		RequestRender()
-		
+		RenderTexture()
 		'_model.RotateY( 1 )
 		'_model.RotateZ( -1 )
 		'_model.RotateX( 1 )
 		controls()
+		_scene.Update()
 		_scene.Render( canvas,_camera )
  		 		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
@@ -121,7 +139,20 @@ Class MyWindow Extends Window
 		vertices[5].position=New Vec3f( -1+x,-1+y, 1+z )'left back bottom
  		vertices[6].position=New Vec3f(  1+x, 1+y, 1+z )'right back top
  		vertices[7].position=New Vec3f(  1+x,-1+y, 1+z )'right back bottom
- 		
+
+
+'  Texture coordinates represent coordinates within the image, where 
+'	0,0=top left, 1,0=top right, 1,1=bottom right, 0,1=bottom left
+		vertices[0].texCoord0 = New Vec2f(0,0)
+		vertices[1].texCoord0 = New Vec2f(1,0)
+		vertices[2].texCoord0 = New Vec2f(1,1)
+		vertices[3].texCoord0 = New Vec2f(0,1)
+		
+		vertices[4].texCoord0 = New Vec2f(1,0)
+		vertices[5].texCoord0 = New Vec2f(0,1)
+		vertices[6].texCoord0 = New Vec2f(0,0)
+		vertices[7].texCoord0 = New Vec2f(0,1)		 		
+
  		Local inds:Int=0
  		For Local i:Int=0 Until 6
 	 		If sides[i] = True Then inds+=6
@@ -200,6 +231,27 @@ Class MyWindow Extends Window
 		If Keyboard.KeyDown(Key.Right) Then _camera.Rotate(0,-1,0)
 	End Method
 	
+	Method RenderTexture()
+		If Not _rectCanvas Then
+			_rectCanvas=New Canvas( _rectImage )
+ 
+		Endif
+		
+		'This should be orange with white text on
+		'But since I'm drawing something in the top left corner -
+		'I'm just getting that top left pixel on the entire rectangle
+		
+		_rectCanvas.Clear( Color.Blue )
+		_rectCanvas.Color = Color.White
+		_rectCanvas.DrawText( "Hello World", Rnd(8,12), 8 )
+		_rectCanvas.Color = Color.Orange
+		_rectCanvas.DrawRect( 50, 50 , 200 ,90) 'White in the top left
+		
+		
+		
+		_rectCanvas.Flush()
+		
+	End	Method
 End Class
  
 Function Main()
