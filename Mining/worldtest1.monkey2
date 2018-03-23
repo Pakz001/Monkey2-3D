@@ -348,6 +348,8 @@ End Method
 	End	Method
 	
 	Method generateworld()
+		'underground
+		
 		For Local z:Int=0 Until worlddepth
 		For Local x:Int=0 Until worldwidth
 		For Local y:Int=0 Until 15
@@ -356,15 +358,48 @@ End Method
 		Next
 		Next
 
+		'drop some elevations (dists) circles on circles
+		For Local i:Int=0 Until (worldwidth+worlddepth)/8
+			Local x1:Int=Rnd(worldwidth)
+			Local z1:Int=Rnd(worlddepth)
+			Local h:Int=Rnd(3,15)
+			For Local ii:Int=0 Until h
+				x1+=Rnd(-5,5)
+				z1+=Rnd(-5,5)				
+				Local radius:Int=Rnd(2,30)
+				For Local z2:Int=-radius To radius
+				For Local x2:Int=-radius To radius
+					If (z2*z2+x2*x2) <= radius*radius+radius*0.8
+						Local x3:Int = x1+x2
+						Local z3:Int = z1+z2
+						If x3>=0 And z3>=0 And x3<worldwidth And z3<worlddepth
+							Local yer:Int
+							For Local y3:Int=worldheight-5 Until 2 Step -1
+								If worldmap[x3,y3,z3] <> 0
+									yer=y3+1
+									Exit
+								End If
+							Next
+							'yer = 20
+							worldmap[x3,yer,z3] = 1
+						End If
+					End If
+				Next
+				Next
+			Next
+		Next
+
+
 	'	For Local i:Int=0 Until 50000
 	'		worldmap[Rnd(worldwidth),Rnd(worldheight),Rnd(worlddepth)] = 1
 	'	Next
-		
+		'Return
 		'mountains
 		
-		 For Local xii:Int=0 Until (worldwidth+worlddepth)
+		' Caves and Rocky mountains
+		 For Local xii:Int=0 Until (worldwidth+worlddepth)/2
 			Local under:Bool=False
-			If Rnd()<.5 Then under=True
+			If Rnd()<.8 Then under=True
 			Local x:Float=Rnd(worldwidth)
 			Local y:Float=15
 			Local z:Float=Rnd(worlddepth)
