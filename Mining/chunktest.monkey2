@@ -61,6 +61,7 @@ Class MyWindow Extends Window
 		
 		
 		'Here we create our chunk mesh
+		
 		Local chunkmesh:= New Mesh()
 		For Local z:Int=0 Until chunkdepth
 		For Local y:Int=0 Until chunkheight
@@ -105,7 +106,8 @@ Class MyWindow Extends Window
 		If Keyboard.KeyReleased(Key.Escape) Then App.Terminate()
 	End Method
 
-
+	'sides (0-front,1=left,2=back,3=right,4=top,5=bottom)
+	'x,y,z is location in the chunk
 	Method createcube:Mesh(x:Float=0,y:Float=0,z:Float=0,sides:Bool[])
 		
 		'create cube mesh
