@@ -57,8 +57,8 @@ Class MyWindow Extends Window
 		_camera=New Camera
 		_camera.Near=.1
 		_camera.Far=1000
-		_camera.Move( 50,20,135 )
-		'_camera.PointAt(New Vec3f(0,0,0))
+		_camera.Move( 50,50,35 )
+		_camera.PointAt(New Vec3f(0,50,0))
 		
 		'create light
 		'
@@ -151,16 +151,16 @@ Class MyWindow Extends Window
 	End Method
 
 Method updateworld()	 	
-		Local x2:Int=_camera.Position.x / chunkwidth
-		Local z2:Int=_camera.Position.z / chunkdepth
-		Local y2:Int=_camera.Position.y / chunkheight
+		Local x2:Int=(_camera.Position.x/2) / chunkwidth
+		Local z2:Int=(_camera.Position.z/2) / chunkdepth
+		Local y2:Int=(_camera.Position.y/2) / chunkheight
 		'Print x2+","+y2+","+z2
 		Local mlx:Stack<Int> = New Stack<Int>
 		Local mly:Stack<Int> = New Stack<Int>
 		Local mlz:Stack<Int> = New Stack<Int>
-		For Local z3:Int=z2-1 To z2+1
-		For Local y3:Int=y2-1 To y2+1
-		For Local x3:Int=x2-1 To x2+1
+		For Local z3:Int=z2-2 To z2+2
+		For Local y3:Int=y2-2 To y2+2
+		For Local x3:Int=x2-2 To x2+2
 			If x3<0 Or y3<0 Or z3<0 Then Continue
 			Local makeit:Bool=True
 			For Local i:=Eachin chunklist
@@ -326,9 +326,9 @@ End Method
 		Next
 		Next
 
-		For Local i:Int=0 Until 50000
-			worldmap[Rnd(worldwidth),Rnd(worldheight),Rnd(worlddepth)] = 1
-		Next
+	'	For Local i:Int=0 Until 50000
+	'		worldmap[Rnd(worldwidth),Rnd(worldheight),Rnd(worlddepth)] = 1
+	'	Next
 		
 	End Method
     Function distance:Int(x1:Int,y1:Int,x2:Int,y2:Int)   
