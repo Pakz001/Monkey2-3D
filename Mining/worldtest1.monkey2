@@ -448,9 +448,9 @@ End Method
 		Endif
 		
 		If Keyboard.KeyDown( Key.A )
-			entity.MoveZ( .1 )
+			entity.MoveZ( .4 )
 		Else If Keyboard.KeyDown( Key.Z )
-			entity.MoveZ( -.1 )
+			entity.MoveZ( -.4 )
 		Endif
 			
 	End Function
