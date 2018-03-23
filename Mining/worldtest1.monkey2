@@ -72,6 +72,7 @@ Class MyWindow Extends Window
 		'
 		_light=New Light
 		_light.Move(110,110,120)
+		_light.CastsShadow = False 'slow! on low ends if true
 		_light.PointAt(New Vec3f(0,0,0))
 '		_light.RotateX( 90 )	'aim directional light downwards - 90 degrees.
 	 	
@@ -370,7 +371,7 @@ End Method
 			Local dx:Float=Rnd(-1,1)
 			Local dy:Float=Rnd(-1,1)
 			Local dz:Float=Rnd(-1,1)
-			Local lenny:Int=Rnd(150,300)
+			Local lenny:Int=Rnd(150,500)
 			For Local i:Int=0 Until lenny
 				x+=dx
 				y+=dy
@@ -382,7 +383,7 @@ End Method
 				
 				If under=False And x>=10 And y+4>=10 And z>=10 And x<worldwidth-10 And y+4<worldheight-10 And z<worlddepth-10
 					'If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
-					If y>worldheight/3 Then dy=-1
+					If y>worldheight-20 Then dy=-1
 				End If
 				
 				Local bg:Int=-3
