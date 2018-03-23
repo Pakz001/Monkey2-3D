@@ -386,8 +386,12 @@ End Method
 				End If
 				
 				Local bg:Int=-3
-				If y<16 Then bg=Rnd(-10,-5)		
+				If y<16 Then bg=Rnd(-10,-5)
+				
+				'tunnels
 				If under=True Then bg=Rnd(-3,-1)
+				'rooms in tunnels
+				If under=True And Rnd()<.03 And y<10 And y>4 Then bg=-6		
 				
 				For Local y1:Int=bg/2 To Abs(bg/2)
 				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
