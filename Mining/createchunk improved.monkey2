@@ -51,8 +51,8 @@ Class MyWindow Extends Window
 				If x-1>=0 And chunk[x-1,y,z] <> 0 Then sides[1] = False Else sides[1] = true
 				If z+1<3 And chunk[x,y,z+1] <> 0 Then sides[2] = False Else sides[2] = true
 				If x+1<3 And chunk[x+1,y,z] <> 0 Then sides[3] = False Else sides[3] = true
-				If y-1>=0 And chunk[x,y-1,z] <> 0 Then sides[4] = False Else sides[4] = true
-				If y+1<3 And chunk[x,y+1,z] <> 0 Then sides[5] = False Else sides[5] = true
+				If y+1<3 And chunk[x,y+1,z] <> 0 Then sides[4] = False Else sides[4] = True
+				If y-1>=0 And chunk[x,y-1,z] <> 0 Then sides[5] = False Else sides[5] = True				
 				Local mesh2:=createcube(x*2,y*2,z*2,sides)
 				chunkmesh.AddMesh(mesh2)
 			endif
