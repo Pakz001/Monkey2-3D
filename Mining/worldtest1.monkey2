@@ -110,7 +110,17 @@ Class MyWindow Extends Window
 		chunkmesh.UpdateNormals()
 		model=New Model
 		model.Mesh=chunkmesh
-		model.Material=New PbrMaterial( Color.Green )
+		Local col:Color
+		Local r:Float=Rnd()
+		If r>.8
+		col = Color.Yellow.Blend(Color.White,Rnd())
+		Elseif r<.5
+		col = Color.Grey.Blend(Color.White,Rnd())
+		Else
+		col = Color.Brown.Blend(Color.White,Rnd())
+		End If	
+		
+		model.Material=New PbrMaterial( col )'Color.Green )
 		
 		Return model
 		'_model.Material.CullMode=CullMode.None
@@ -344,6 +354,8 @@ End Method
 		'mountains
 		
 		 For Local xii:Int=0 Until 2260
+			Local under:Bool=False
+			If Rnd()<.3 Then under=True
 			Local x:Float=Rnd(worldwidth)
 			Local y:Float=Rnd(15,20)
 			Local z:Float=Rnd(worlddepth)
@@ -359,12 +371,14 @@ End Method
 				If Rnd() < .1 Then dy = Rnd(-.2,.2)
 				If Rnd() < .1 Then dz = Rnd(-1,1)
 				If x<0 Or y<0 Or z<0 Or x>worldwidth Or y>worldheight Or z>worlddepth Then Continue
-				If x>=10 And y+4>=10 And z>=10 And x<worldwidth-10 And y+4<worldheight-10 And z<worlddepth-10
-				If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
+				
+				If under=False And x>=10 And y+4>=10 And z>=10 And x<worldwidth-10 And y+4<worldheight-10 And z<worlddepth-10
+					If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
 				End If
 				
 				Local bg:Int=-3
 				If y<16 Then bg=-7		
+				If under=True Then bg=-2
 				For Local y1:Int=Rnd(-3,-1) To Rnd(1,3)
 				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
 				For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
@@ -372,8 +386,12 @@ End Method
 					Local y2:Int=y+y1
 					Local z2:Int=z+z1
 					If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
-					If Rnd() < Rnd(.5,1) Then
-					worldmap[x2,y2,z2] = 1
+					If Rnd() < .8 Then
+					If under=False Then
+						worldmap[x2,y2,z2] = 1
+					Else
+						If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
+					End if
 					End If
 				Next
 				Next
