@@ -9,6 +9,7 @@ Using mojo3d..
 Class chunk
 	Field model:Model
 	Field x:Int,y:Int,z:Int
+	Field deleteme:Bool
 	Method New(x:Int,y:Int,z:Int,model:Model)
 		Self.x = x
 		Self.y = y
@@ -36,9 +37,9 @@ Class MyWindow Extends Window
  	Field chunkheight:Int=16
  	Field chunkdepth:Int=16
 
-	Field worldwidth:Int=1200
-	Field worldheight:Int=50
-	Field worlddepth:Int=1200
+	Field worldwidth:Int=600
+	Field worldheight:Int=80
+	Field worlddepth:Int=600
 	Field worldmap:Int[,,]
 
 	
@@ -180,10 +181,20 @@ Method updateworld()
 		For Local i:Int=0 Until mlx.Length
 			Local x:Int=mlx.Get(i)			
 			Local y:Int=mly.Get(i)
-			Local z:Int=mlz.Get(i)
-'			
+			Local z:Int=mlz.Get(i)'			
 			'Local model:=createmodel(x*chunkwidth,y*chunkheight,z*chunkdepth)
 			chunklist.Add(New chunk(x,y,z,createmodel(x*chunkwidth,y*chunkheight,z*chunkdepth))						)
+		Next
+
+		' If distance between chunks and camera is to large then remove them		
+		For Local i:=Eachin chunklist
+			If distance(i.x,i.z,_camera.Position.x/2/chunkwidth,_camera.Position.z/2/chunkdepth) > 5
+				i.model.Destroy()
+				i.deleteme = True
+			End If
+		Next
+		For Local i:=Eachin chunklist
+			If i.deleteme = True Then chunklist.Remove(i)
 		Next
 End Method
 
@@ -330,6 +341,50 @@ End Method
 	'		worldmap[Rnd(worldwidth),Rnd(worldheight),Rnd(worlddepth)] = 1
 	'	Next
 		
+		'mountains
+		
+		 For Local xii:Int=0 Until 2260
+			Local x:Float=Rnd(worldwidth)
+			Local y:Float=Rnd(15,20)
+			Local z:Float=Rnd(worlddepth)
+			Local dx:Float=Rnd(-1,1)
+			Local dy:Float=Rnd(-1,1)
+			Local dz:Float=Rnd(-1,1)
+			Local lenny:Int=Rnd(50,300)
+			For Local i:Int=0 Until lenny
+				x+=dx
+				y+=dy
+				z+=dz
+				If Rnd() < .1 Then dx = Rnd(-1,1)
+				If Rnd() < .1 Then dy = Rnd(-.2,.2)
+				If Rnd() < .1 Then dz = Rnd(-1,1)
+				If x<0 Or y<0 Or z<0 Or x>worldwidth Or y>worldheight Or z>worlddepth Then Continue
+				If x>=10 And y+4>=10 And z>=10 And x<worldwidth-10 And y+4<worldheight-10 And z<worlddepth-10
+				If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
+				End If
+				
+				Local bg:Int=-3
+				If y<17 Then bg=-7		
+				For Local y1:Int=Rnd(-3,-1) To Rnd(1,3)
+				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
+				For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
+					Local x2:Int=x+x1
+					Local y2:Int=y+y1
+					Local z2:Int=z+z1
+					If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
+					If Rnd() < .5 Then
+					worldmap[x2,y2,z2] = 1
+					End If
+				Next
+				Next
+				Next
+			Next
+		Next		
+		
+		
+		
+		
+		
 	End Method
     Function distance:Int(x1:Int,y1:Int,x2:Int,y2:Int)   
     	Return Abs(x2-x1)+Abs(y2-y1)   
@@ -341,5 +396,5 @@ Function Main()
 	
 	New AppInstance
 	New MyWindow
-	App.Run()
+	App.Run()	
 End
