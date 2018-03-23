@@ -41,21 +41,21 @@ Class MyWindow Extends Window
 	 		
 	 	'Here we create our chunk array
 	 	Local chunkwidth:Int=10
-	 	Local chunkheight:Int=10
+	 	Local chunkheight:Int=64
 	 	Local chunkdepth:Int=10
 		Local chunk:Int[,,] = New Int[chunkwidth,chunkheight,chunkdepth]
 
 	
-		For Local z:Int=0 Until 10
-		For Local y:Int=0 Until 10
-		For Local x:Int=0 Until 10
+		For Local z:Int=0 Until chunkdepth
+		For Local y:Int=0 Until chunkheight
+		For Local x:Int=0 Until chunkwidth
 			chunk[x,y,z] = 1
 		Next
 		Next
 		Next
-		For Local z:Int=0 Until 10
-		For Local y:Int=0 Until 10
-		For Local x:Int=2 Until 8
+		For Local z:Int=0 Until chunkdepth
+		For Local y:Int=0 Until chunkheight
+		For Local x:Int=2 Until chunkwidth-2
 			chunk[x,y,z] = Int(Rnd(0,2))
 			If Rnd() <.7 Then chunk[x,y,z]=0
 		Next
