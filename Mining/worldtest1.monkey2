@@ -45,6 +45,12 @@ Class MyWindow Extends Window
 	
 
 	Method New()
+
+		Local t:Time=Time.Now()
+		Local ts:String=t.ToString()
+		Local a:Int = Int(ts.Slice(16))+Microsecs()
+		
+		SeedRnd(a)
 		
 		worldmap = New Int[worldwidth,worldheight,worlddepth]
 		generateworld()
