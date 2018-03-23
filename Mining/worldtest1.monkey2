@@ -363,6 +363,7 @@ End Method
 			Local x1:Int=Rnd(worldwidth)
 			Local z1:Int=Rnd(worlddepth)
 			Local h:Int=Rnd(1,3)
+			If Rnd() < .15 Then h=Rnd(3,10)
 			For Local ii:Int=0 Until h
 				x1+=Rnd(-5,5)
 				z1+=Rnd(-5,5)				
@@ -439,7 +440,12 @@ End Method
 			Local dy:Float=Rnd(-1,1)
 			Local dz:Float=Rnd(-1,1)
 			Local lenny:Int=Rnd(150,500)
+			Local tiepe:Bool=False
+			
+			If Rnd()<.01 And under=True Then tiepe=True
+			If under=False Then tiepe = false
 			For Local i:Int=0 Until lenny
+				
 				x+=dx
 				y+=dy
 				z+=dz
@@ -453,31 +459,57 @@ End Method
 					If y>worldheight-20 Then dy=-1
 				End If
 				
+				
+				
 				Local bg:Int=-3
 				If y<16 Then bg=Rnd(-10,-5)
 				
 				'tunnels
 				If under=True Then bg=Rnd(-3,-1)
 				'rooms in tunnels
-				If under=True And Rnd()<.03 And y<10 And y>4 Then bg=-6		
+				If under=True And Rnd()<.015 And y<10 And y>4 Then bg=-6		
 				
-				For Local y1:Int=bg/2 To Abs(bg/2)
-				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
-				For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
-					Local x2:Int=x+x1
-					Local y2:Int=y+y1
-					Local z2:Int=z+z1
-					If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
-					'If Rnd() < .9 Then
-					If under=False Then
-						worldmap[x2,y2,z2] = 1
-					Else
-						If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
-					End if
-					'End If
-				Next
-				Next
-				Next
+				If under=True And Rnd()<.009 Then 
+					If tiepe=False Then tiepe=True Else tiepe=False
+				End If
+				
+				If tiepe=True Then
+					For Local y1:Int=bg To Abs(bg)
+					For Local x1:Int=bg To Abs(bg)'Rnd(bg,-1) To Rnd(1,Abs(bg))
+					For Local z1:Int=bg To Abs(bg)'Rnd(bg,-1) To Rnd(1,Abs(bg))
+						Local x2:Int=x+x1
+						Local y2:Int=y+y1
+						Local z2:Int=z+z1
+						If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
+						'If Rnd() < .9 Then
+						If under=False Then
+							worldmap[x2,y2,z2] = 1
+						Else
+							If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
+						End if
+						'End If
+					Next
+					Next
+					Next
+				Else
+					For Local y1:Int=bg/2 To Abs(bg/2)
+					For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
+					For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
+						Local x2:Int=x+x1
+						Local y2:Int=y+y1
+						Local z2:Int=z+z1
+						If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
+						'If Rnd() < .9 Then
+						If under=False Then
+							worldmap[x2,y2,z2] = 1
+						Else
+							If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
+						End if
+						'End If
+					Next
+					Next
+					Next
+				End If			
 			Next
 		Next		
 		
