@@ -387,7 +387,7 @@ End Method
 				
 				Local bg:Int=-3
 				If y<16 Then bg=Rnd(-10,-5)		
-				If under=True Then bg=Rnd(-5,-2)
+				If under=True Then bg=Rnd(-3,-1)
 				
 				For Local y1:Int=bg/2 To Abs(bg/2)
 				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
