@@ -425,9 +425,9 @@ End Method
 			entity.RotateX( -rspeed )
 		Endif
 		
-		If Keyboard.KeyDown( Key.Q )
+		If Keyboard.KeyDown( Key.A )
 			entity.RotateZ( rspeed )
-		Else If Keyboard.KeyDown( Key.W )
+		Else If Keyboard.KeyDown( Key.D )
 			entity.RotateZ( -rspeed )
 		Endif
 		
@@ -447,9 +447,9 @@ End Method
 			'Endif
 		Endif
 		
-		If Keyboard.KeyDown( Key.A )
+		If Keyboard.KeyDown( Key.W )
 			entity.MoveZ( .4 )
-		Else If Keyboard.KeyDown( Key.Z )
+		Else If Keyboard.KeyDown( Key.S )
 			entity.MoveZ( -.4 )
 		Endif
 			
