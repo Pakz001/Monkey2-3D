@@ -95,10 +95,10 @@ Class MyWindow Extends Window
  
 		RequestRender()
 		
-		_model.RotateY( 1 )
-		_model.RotateZ( -1 )
-		_model.RotateX( 1 )
-		
+		'_model.RotateY( 1 )
+		'_model.RotateZ( -1 )
+		'_model.RotateX( 1 )
+		controls()
 		_scene.Render( canvas,_camera )
  		 		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
@@ -187,6 +187,17 @@ Class MyWindow Extends Window
 				
 		Return New Mesh( vertices,indices )		
 		
+	End Method
+	
+	Method controls()
+		If Keyboard.KeyDown(Key.W) Then _camera.Move(0,0,.5)
+		If Keyboard.KeyDown(Key.S) Then _camera.Move(0,0,-.5)
+		If Keyboard.KeyDown(Key.A) Then _camera.Move(-.5,0,0)
+		If Keyboard.KeyDown(Key.D) Then _camera.Move(.5,0,0)
+		If Keyboard.KeyDown(Key.Up) Then _camera.Rotate(1,0,0)
+		If Keyboard.KeyDown(Key.Down) Then _camera.Rotate(-1,0,0)
+		If Keyboard.KeyDown(Key.Left) Then _camera.Rotate(0,1,0)
+		If Keyboard.KeyDown(Key.Right) Then _camera.Rotate(0,-1,0)
 	End Method
 	
 End Class
