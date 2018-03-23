@@ -358,11 +358,43 @@ End Method
 		Next
 		Next
 
-		'drop some elevations (dists) circles on circles
-		For Local i:Int=0 Until (worldwidth+worlddepth)/8
+		'dig out (dists) circles on circles
+		For Local i:Int=0 Until (worldwidth+worlddepth)/12
 			Local x1:Int=Rnd(worldwidth)
 			Local z1:Int=Rnd(worlddepth)
-			Local h:Int=Rnd(3,15)
+			Local h:Int=Rnd(1,3)
+			For Local ii:Int=0 Until h
+				x1+=Rnd(-5,5)
+				z1+=Rnd(-5,5)				
+				Local radius:Int=Rnd(2,30)
+				For Local z2:Int=-radius To radius
+				For Local x2:Int=-radius To radius
+					If (z2*z2+x2*x2) <= radius*radius+radius*0.8
+						Local x3:Int = x1+x2
+						Local z3:Int = z1+z2
+						If x3>=0 And z3>=0 And x3<worldwidth And z3<worlddepth
+							Local yer:Int
+							For Local y3:Int=worldheight-5 Until 2 Step -1
+								If worldmap[x3,y3,z3] <> 0
+									yer=y3
+									Exit
+								End If
+							Next
+							'yer = 20
+							worldmap[x3,yer,z3] = 0
+						End If
+					End If
+				Next
+				Next
+			Next
+		Next
+
+		'drop some elevations (dists) circles on circles
+		For Local i:Int=0 Until (worldwidth+worlddepth)/12
+			Local x1:Int=Rnd(worldwidth)
+			Local z1:Int=Rnd(worlddepth)
+			Local h:Int=Rnd(3,10)
+			If Rnd()<0.05 Then h=15
 			For Local ii:Int=0 Until h
 				x1+=Rnd(-5,5)
 				z1+=Rnd(-5,5)				
@@ -397,7 +429,7 @@ End Method
 		'mountains
 		
 		' Caves and Rocky mountains
-		 For Local xii:Int=0 Until (worldwidth+worlddepth)/2
+		 For Local xii:Int=0 Until (worldwidth+worlddepth)
 			Local under:Bool=False
 			If Rnd()<.8 Then under=True
 			Local x:Float=Rnd(worldwidth)
