@@ -364,7 +364,7 @@ End Method
 				End If
 				
 				Local bg:Int=-3
-				If y<17 Then bg=-7		
+				If y<16 Then bg=-7		
 				For Local y1:Int=Rnd(-3,-1) To Rnd(1,3)
 				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
 				For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
@@ -372,7 +372,7 @@ End Method
 					Local y2:Int=y+y1
 					Local z2:Int=z+z1
 					If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
-					If Rnd() < .5 Then
+					If Rnd() < Rnd(.5,1) Then
 					worldmap[x2,y2,z2] = 1
 					End If
 				Next
