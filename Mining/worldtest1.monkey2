@@ -353,9 +353,9 @@ End Method
 		
 		'mountains
 		
-		 For Local xii:Int=0 Until (worldwidth+worlddepth)*2
+		 For Local xii:Int=0 Until (worldwidth+worlddepth)
 			Local under:Bool=False
-			If Rnd()<.3 Then under=True
+			If Rnd()<.5 Then under=True
 			Local x:Float=Rnd(worldwidth)
 			Local y:Float=15
 			Local z:Float=Rnd(worlddepth)
@@ -379,22 +379,22 @@ End Method
 				
 				Local bg:Int=-3
 				If y<16 Then bg=Rnd(-10,-5)		
-				If under=True Then bg=-2
+				If under=True Then bg=Rnd(-5,-2)
 				
-				For Local y1:Int=Rnd(-3,-1) To Rnd(1,3)
+				For Local y1:Int=bg/2 To Abs(bg/2)
 				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
 				For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
 					Local x2:Int=x+x1
 					Local y2:Int=y+y1
 					Local z2:Int=z+z1
 					If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
-					If Rnd() < .9 Then
+					'If Rnd() < .9 Then
 					If under=False Then
 						worldmap[x2,y2,z2] = 1
 					Else
 						If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
 					End if
-					End If
+					'End If
 				Next
 				Next
 				Next
