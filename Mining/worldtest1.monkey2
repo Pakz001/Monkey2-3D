@@ -353,32 +353,34 @@ End Method
 		
 		'mountains
 		
-		 For Local xii:Int=0 Until 2260
+		 For Local xii:Int=0 Until (worldwidth+worlddepth)*2
 			Local under:Bool=False
 			If Rnd()<.3 Then under=True
 			Local x:Float=Rnd(worldwidth)
-			Local y:Float=Rnd(15,20)
+			Local y:Float=15
 			Local z:Float=Rnd(worlddepth)
 			Local dx:Float=Rnd(-1,1)
 			Local dy:Float=Rnd(-1,1)
 			Local dz:Float=Rnd(-1,1)
-			Local lenny:Int=Rnd(50,300)
+			Local lenny:Int=Rnd(150,300)
 			For Local i:Int=0 Until lenny
 				x+=dx
 				y+=dy
 				z+=dz
-				If Rnd() < .1 Then dx = Rnd(-1,1)
-				If Rnd() < .1 Then dy = Rnd(-.2,.2)
-				If Rnd() < .1 Then dz = Rnd(-1,1)
+				If Rnd() < .2 Then dx = Rnd(-1,1)
+				If Rnd() < .2 Then dy = Rnd(-1,.5)
+				If Rnd() < .2 Then dz = Rnd(-1,1)
 				If x<0 Or y<0 Or z<0 Or x>worldwidth Or y>worldheight Or z>worlddepth Then Continue
 				
 				If under=False And x>=10 And y+4>=10 And z>=10 And x<worldwidth-10 And y+4<worldheight-10 And z<worlddepth-10
-					If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
+					'If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
+					If y>worldheight/3 Then dy=-1
 				End If
 				
 				Local bg:Int=-3
-				If y<16 Then bg=-7		
+				If y<16 Then bg=Rnd(-10,-5)		
 				If under=True Then bg=-2
+				
 				For Local y1:Int=Rnd(-3,-1) To Rnd(1,3)
 				For Local x1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
 				For Local z1:Int=Rnd(bg,-1) To Rnd(1,Abs(bg))
@@ -386,7 +388,7 @@ End Method
 					Local y2:Int=y+y1
 					Local z2:Int=z+z1
 					If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
-					If Rnd() < .8 Then
+					If Rnd() < .9 Then
 					If under=False Then
 						worldmap[x2,y2,z2] = 1
 					Else
