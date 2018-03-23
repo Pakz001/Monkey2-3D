@@ -101,7 +101,7 @@ Class MyWindow Extends Window
 	
 		sm.ColorTexture = _rectImage.Texture
 	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
-		sm.CullMode=CullMode.None
+		'sm.CullMode=CullMode.None
 	 
  
 		_model.Materials[chunkmesh.NumMaterials - 1] = sm
@@ -181,12 +181,12 @@ Class MyWindow Extends Window
 		End If
 		If sides[2] = True
 		'back side
-		indices[cnt]=4;cnt+=1
 		indices[cnt]=6;cnt+=1
-		indices[cnt]=7;cnt+=1
 		indices[cnt]=4;cnt+=1
-		indices[cnt]=7;cnt+=1
 		indices[cnt]=5;cnt+=1
+		indices[cnt]=6;cnt+=1
+		indices[cnt]=5;cnt+=1
+		indices[cnt]=7;cnt+=1
 		End If
 		If sides[3] = True
 		'right side
@@ -208,11 +208,11 @@ Class MyWindow Extends Window
 		End If
 		If sides[5] = true
 		'bottom side
-		indices[cnt]=3;cnt+=1
+		indices[cnt]=7;cnt+=1
 		indices[cnt]=5;cnt+=1
-		indices[cnt]=7;cnt+=1
 		indices[cnt]=3;cnt+=1
 		indices[cnt]=7;cnt+=1
+		indices[cnt]=3;cnt+=1
 		indices[cnt]=2;cnt+=1
 		End If
 				
