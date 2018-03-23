@@ -61,6 +61,7 @@ Class MyWindow Extends Window
 		_camera.Move( 50,50,35 )
 		_camera.PointAt(New Vec3f(0,50,0))
 		
+		
 		'create light
 		'
 		_light=New Light
@@ -150,7 +151,8 @@ Class MyWindow Extends Window
 		'_model.RotateY( 1 )
 		'_model.RotateZ( -1 )
 		'_model.RotateX( 1 )
-		controls()
+		'controls()
+		Fly(_camera)
 		updateworld()
 		'_scene.Update()
 		_scene.Render( canvas,_camera )
@@ -406,6 +408,49 @@ End Method
 		
 		
 	End Method
+	
+	Function Fly( entity:Entity)
+		
+		Const rspeed:=2.0
+	
+		If Keyboard.KeyDown( Key.Up )
+			entity.RotateX( rspeed )
+		Else If Keyboard.KeyDown( Key.Down )
+			entity.RotateX( -rspeed )
+		Endif
+		
+		If Keyboard.KeyDown( Key.Q )
+			entity.RotateZ( rspeed )
+		Else If Keyboard.KeyDown( Key.W )
+			entity.RotateZ( -rspeed )
+		Endif
+		
+		If Keyboard.KeyDown( Key.Left )
+			entity.RotateY( rspeed,True )
+		Else If Keyboard.KeyDown( Key.Right )
+			entity.RotateY( -rspeed,True )
+		Endif
+	
+		If Mouse.ButtonDown( MouseButton.Left )
+			'If Mouse.X<view.Width/3
+				entity.RotateY( rspeed,True )
+			'Else If Mouse.X>view.Width/3*2
+				entity.RotateY( -rspeed,True )
+			'Else
+			'	entity.Move( New Vec3f( 0,0,.1 ) )
+			'Endif
+		Endif
+		
+		If Keyboard.KeyDown( Key.A )
+			entity.MoveZ( .1 )
+		Else If Keyboard.KeyDown( Key.Z )
+			entity.MoveZ( -.1 )
+		Endif
+			
+	End Function
+		
+	
+	
     Function distance:Int(x1:Int,y1:Int,x2:Int,y2:Int)   
     	Return Abs(x2-x1)+Abs(y2-y1)   
     End Function 	
