@@ -64,7 +64,7 @@ Class MyWindow Extends Window
 		_camera=New Camera
 		_camera.Near=.1
 		_camera.Far=1000
-		_camera.Move( 50,50,35 )
+		_camera.Move( 50,60,35 )
 		_camera.PointAt(New Vec3f(0,50,0))
 		
 		
@@ -352,7 +352,7 @@ End Method
 		
 		For Local z:Int=0 Until worlddepth
 		For Local x:Int=0 Until worldwidth
-		For Local y:Int=0 Until 15
+		For Local y:Int=0 Until 20
 			worldmap[x,y,z] = 1
 		Next
 		Next
@@ -434,7 +434,7 @@ End Method
 			Local under:Bool=False
 			If Rnd()<.8 Then under=True
 			Local x:Float=Rnd(worldwidth)
-			Local y:Float=15
+			Local y:Float=20
 			Local z:Float=Rnd(worlddepth)
 			Local dx:Float=Rnd(-1,1)
 			Local dy:Float=Rnd(-1,1)
@@ -452,7 +452,7 @@ End Method
 				If Rnd() < .2 Then dx = Rnd(-1,1)
 				If Rnd() < .2 Then dy = Rnd(-1,.5)
 				If Rnd() < .2 Then dz = Rnd(-1,1)
-				If x<0 Or y<0 Or z<0 Or x>worldwidth Or y>worldheight Or z>worlddepth Then Continue
+				If x<1 Or y<1 Or z<1 Or x>=worldwidth-1 Or y>=worldheight-1 Or z>=worlddepth-1 Then Continue
 				
 				If under=False And x>=10 And y+4>=10 And z>=10 And x<worldwidth-10 And y+4<worldheight-10 And z<worlddepth-10
 					'If worldmap[x+(dx*10),y+4,z+(dz*10)] = 0 Then dy=-1
@@ -462,7 +462,7 @@ End Method
 				
 				
 				Local bg:Int=-3
-				If y<16 Then bg=Rnd(-10,-5)
+				If y<21 Then bg=Rnd(-10,-5)
 				
 				'tunnels
 				If under=True Then bg=Rnd(-3,-1)
@@ -480,7 +480,7 @@ End Method
 						Local x2:Int=x+x1
 						Local y2:Int=y+y1
 						Local z2:Int=z+z1
-						If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
+						If x2<=1 Or y2<1 Or z2<1 Or x2>=worldwidth-1 Or y2>=worldheight-1 Or z2>=worlddepth-1 Then Continue
 						'If Rnd() < .9 Then
 						If under=False Then
 							worldmap[x2,y2,z2] = 1
@@ -498,7 +498,7 @@ End Method
 						Local x2:Int=x+x1
 						Local y2:Int=y+y1
 						Local z2:Int=z+z1
-						If x2<=0 Or y2<0 Or z2<0 Or x2>=worldwidth Or y2>=worldheight Or z2>=worlddepth Then Continue
+						If x2<=1 Or y2<1 Or z2<1 Or x2>=worldwidth-1 Or y2>=worldheight-1 Or z2>=worlddepth-1 Then Continue
 						'If Rnd() < .9 Then
 						If under=False Then
 							worldmap[x2,y2,z2] = 1
