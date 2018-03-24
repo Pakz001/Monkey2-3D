@@ -162,26 +162,26 @@ Class MyWindow Extends Window
 		indices[4]=2
 		indices[5]=3
 		'back side
-		indices[12]=4
-		indices[13]=5
-		indices[14]=6
-		indices[15]=4
-		indices[16]=6
-		indices[17]=7	
+		indices[6]=4
+		indices[7]=5
+		indices[8]=6
+		indices[9]=4
+		indices[10]=6
+		indices[11]=7	
 		'right side
-		indices[18]=8
-		indices[19]=9
-		indices[20]=10
-		indices[21]=8
-		indices[22]=10
-		indices[23]=11
+		indices[12]=8
+		indices[13]=9
+		indices[14]=10
+		indices[15]=8
+		indices[16]=10
+		indices[17]=11
 '		' left side
-		indices[6]=12
-		indices[7]=13
-		indices[8]=14
-		indices[9]=12
-		indices[10]=14
-		indices[11]=15		
+		indices[18]=12
+		indices[19]=13
+		indices[20]=14
+		indices[21]=12
+		indices[22]=14
+		indices[23]=15		
 '		'top side
 		indices[24]=16
 		indices[25]=17
