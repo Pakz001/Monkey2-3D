@@ -217,103 +217,236 @@ Method updateworld()
 		Next
 End Method
 
-
-	'sides (0-front,1=left,2=back,3=right,4=top,5=bottom)
-	'x,y,z is location in the chunk
-	Method createcube:Mesh(x:Float=0,y:Float=0,z:Float=0,sides:Bool[])
-		
-		'create cube mesh
-		'
-		Local vertices:=New Vertex3f[8]
-		vertices[0].position=New Vec3f( -1+x, 1+y,-1+z )'left front top
-		vertices[1].position=New Vec3f(  1+x, 1+y,-1+z )'right front top
-		vertices[2].position=New Vec3f(  1+x,-1+y,-1+z )'right front bottom
-		vertices[3].position=New Vec3f( -1+x,-1+y,-1+z )'left front bottom
-		vertices[4].position=New Vec3f( -1+x, 1+y, 1+z )'left back top
-		vertices[5].position=New Vec3f( -1+x,-1+y, 1+z )'left back bottom
- 		vertices[6].position=New Vec3f(  1+x, 1+y, 1+z )'right back top
- 		vertices[7].position=New Vec3f(  1+x,-1+y, 1+z )'right back bottom
-
+Method createcube:Mesh(x:Float=0,y:Float=0,z:Float=0,sides:Bool[])
+	
+	'create cube mesh
+	'
+	Local vertices:=New Vertex3f[24]
+	'front
+	vertices[0].position=New Vec3f( -1+x, 1+y,-1+z )'left front top
+	vertices[1].position=New Vec3f(  1+x, 1+y,-1+z )'right front top
+	vertices[2].position=New Vec3f(  1+x,-1+y,-1+z )'right front bottom
+	vertices[3].position=New Vec3f( -1+x,-1+y,-1+z )'left front bottom
+	'back
+	vertices[4].position=New Vec3f(  1+x, 1+y, 1+z )'right back top
+	vertices[5].position=New Vec3f( -1+x, 1+y, 1+z )'left back top
+	vertices[6].position=New Vec3f( -1+x,-1+y, 1+z )'left back bottom
+	vertices[7].position=New Vec3f(  1+x,-1+y, 1+z )'right back bottom
+	'right
+	vertices[8].position=New Vec3f(  1+x, 1+y,-1+z )'right front top
+	vertices[9].position=New Vec3f(  1+x, 1+y, 1+z )'right back top
+	vertices[10].position=New Vec3f( 1+x,-1+y, 1+z )'right back bottom
+	vertices[11].position=New Vec3f( 1+x,-1+y,-1+z )'right front bottom
+	'left
+	vertices[12].position=New Vec3f( -1+x, 1+y, 1+z )'left back top
+	vertices[13].position=New Vec3f( -1+x, 1+y,-1+z )'left front top
+	vertices[14].position=New Vec3f( -1+x,-1+y,-1+z )'left front bottom
+	vertices[15].position=New Vec3f( -1+x,-1+y, 1+z )'left back bottom
+	'top
+	vertices[16].position=New Vec3f( -1+x, 1+y, 1+z )'left back top
+	vertices[17].position=New Vec3f(  1+x, 1+y, 1+z )'right back top
+	vertices[18].position=New Vec3f(  1+x, 1+y,-1+z )'right front top
+	vertices[19].position=New Vec3f( -1+x, 1+y,-1+z )'left front top
+	'bottom
+	vertices[20].position=New Vec3f( -1+x,-1+y,-1+z )'left front bottom
+	vertices[21].position=New Vec3f(  1+x,-1+y,-1+z )'right front bottom
+	vertices[22].position=New Vec3f(  1+x,-1+y, 1+z )'right back bottom
+	vertices[23].position=New Vec3f( -1+x,-1+y, 1+z )'left back bottom
+	
 
 '  Texture coordinates represent coordinates within the image, where 
 '	0,0=top left, 1,0=top right, 1,1=bottom right, 0,1=bottom left
-		vertices[0].texCoord0 = New Vec2f(0,0)
-		vertices[1].texCoord0 = New Vec2f(1,0)
-		vertices[2].texCoord0 = New Vec2f(1,1)
-		vertices[3].texCoord0 = New Vec2f(0,1)
-		
-		vertices[4].texCoord0 = New Vec2f(1,0)
-		vertices[5].texCoord0 = New Vec2f(0,1)
-		vertices[6].texCoord0 = New Vec2f(0,0)
-		vertices[7].texCoord0 = New Vec2f(0,1)		 		
-
- 		Local inds:Int=0
- 		For Local i:Int=0 Until 6
-	 		If sides[i] = True Then inds+=6
-	 	Next
- 		
-		Local indices:=New UInt[inds]
-		
-		Local cnt:Int=0
-		'front
-		If sides[0] = True
-		indices[cnt]=0;cnt+=1
-		indices[cnt]=1;cnt+=1
-		indices[cnt]=2;cnt+=1
-		indices[cnt]=0;cnt+=1
-		indices[cnt]=2;cnt+=1
-		indices[cnt]=3;cnt+=1
-		End if
-		If sides[1] = True
-		' left side
-		indices[cnt]=4;cnt+=1
-		indices[cnt]=0;cnt+=1
-		indices[cnt]=3;cnt+=1
-		indices[cnt]=4;cnt+=1
-		indices[cnt]=3;cnt+=1
-		indices[cnt]=5;cnt+=1
-		End If
-		If sides[2] = True
-		'back side
-		indices[cnt]=6;cnt+=1
-		indices[cnt]=4;cnt+=1
-		indices[cnt]=5;cnt+=1
-		indices[cnt]=6;cnt+=1
-		indices[cnt]=5;cnt+=1
-		indices[cnt]=7;cnt+=1
-		End If
-		If sides[3] = True
-		'right side
-		indices[cnt]=1;cnt+=1
-		indices[cnt]=6;cnt+=1
-		indices[cnt]=7;cnt+=1
-		indices[cnt]=1;cnt+=1
-		indices[cnt]=7;cnt+=1
-		indices[cnt]=2;cnt+=1
-		End If
-		If sides[4] = True
-		'top side
-		indices[cnt]=0;cnt+=1
-		indices[cnt]=4;cnt+=1
-		indices[cnt]=6;cnt+=1
-		indices[cnt]=0;cnt+=1
-		indices[cnt]=6;cnt+=1
-		indices[cnt]=1;cnt+=1
-		End If
-		If sides[5] = true
-		'bottom side
-		indices[cnt]=7;cnt+=1
-		indices[cnt]=5;cnt+=1
-		indices[cnt]=3;cnt+=1
-		indices[cnt]=7;cnt+=1
-		indices[cnt]=3;cnt+=1
-		indices[cnt]=2;cnt+=1
-		End If
-				
-		Return New Mesh( vertices,indices )		
-		
-	End Method
 	
+	'front texture
+	vertices[0].texCoord0 = New Vec2f(0,0)
+	vertices[1].texCoord0 = New Vec2f(1,0)
+	vertices[2].texCoord0 = New Vec2f(1,1)
+	vertices[3].texCoord0 = New Vec2f(0,1)
+	'back texture		
+	vertices[4].texCoord0 = New Vec2f(0,0)
+	vertices[5].texCoord0 = New Vec2f(1,0)
+	vertices[6].texCoord0 = New Vec2f(1,1)
+	vertices[7].texCoord0 = New Vec2f(0,1)
+	'right texture
+	vertices[8].texCoord0 = New Vec2f(0,0)
+	vertices[9].texCoord0 = New Vec2f(1,0)
+	vertices[10].texCoord0 = New Vec2f(1,1)
+	vertices[11].texCoord0 = New Vec2f(0,1)
+	'left texture
+	vertices[12].texCoord0 = New Vec2f(0,0)
+	vertices[13].texCoord0 = New Vec2f(1,0)
+	vertices[14].texCoord0 = New Vec2f(1,1)
+	vertices[15].texCoord0 = New Vec2f(0,1)
+	'top texture
+	vertices[16].texCoord0 = New Vec2f(0,0)
+	vertices[17].texCoord0 = New Vec2f(1,0)
+	vertices[18].texCoord0 = New Vec2f(1,1)
+	vertices[19].texCoord0 = New Vec2f(0,1)
+	'bottom texture
+	vertices[20].texCoord0 = New Vec2f(0,0)
+	vertices[21].texCoord0 = New Vec2f(1,0)
+	vertices[22].texCoord0 = New Vec2f(1,1)
+	vertices[23].texCoord0 = New Vec2f(0,1)
+
+'		 
+	Local indices:=New UInt[36]
+	Local cnt:Int=0
+	'front
+	If sides[0]
+	indices[cnt]=0;cnt+=1
+	indices[cnt]=1;cnt+=1
+	indices[cnt]=2;cnt+=1
+	indices[cnt]=0;cnt+=1
+	indices[cnt]=2;cnt+=1
+	indices[cnt]=3;cnt+=1
+	End if
+	'back side
+	If sides[1]
+	indices[cnt]=4;cnt+=1
+	indices[cnt]=5;cnt+=1
+	indices[cnt]=6;cnt+=1
+	indices[cnt]=4;cnt+=1
+	indices[cnt]=6;cnt+=1
+	indices[cnt]=7;cnt+=1
+	End If
+	'right side
+	If sides[2]
+	indices[cnt]=8;cnt+=1
+	indices[cnt]=9;cnt+=1
+	indices[cnt]=10;cnt+=1
+	indices[cnt]=8;cnt+=1
+	indices[cnt]=10;cnt+=1
+	indices[cnt]=11;cnt+=1
+	End if
+	' left side
+	If sides[3]
+	indices[cnt]=12;cnt+=1
+	indices[cnt]=13;cnt+=1
+	indices[cnt]=14;cnt+=1
+	indices[cnt]=12;cnt+=1
+	indices[cnt]=14;cnt+=1
+	indices[cnt]=15;cnt+=1	
+	End If
+	'top side
+	If sides[4]
+	indices[cnt]=16;cnt+=1
+	indices[cnt]=17;cnt+=1
+	indices[cnt]=18;cnt+=1
+	indices[cnt]=16;cnt+=1
+	indices[cnt=18;cnt+=1
+	indices[cnt]=19;cnt+=1
+	End If
+	'bottom side
+	If sides[5]
+	indices[cnt]=20;cnt+=1
+	indices[cnt]=21;cnt+=1
+	indices[cnt]=22;cnt+=1
+	indices[cnt]=20;cnt+=1
+	indices[cnt]=22;cnt+=1
+	indices[cnt]=23;cnt+=1
+	End If
+	
+	Return New Mesh( vertices,indices )		
+	
+End Method
+
+'
+'	'sides (0-front,1=left,2=back,3=right,4=top,5=bottom)
+'	'x,y,z is location in the chunk
+'	Method createcube:Mesh(x:Float=0,y:Float=0,z:Float=0,sides:Bool[])
+'		
+'		'create cube mesh
+'		'
+'		Local vertices:=New Vertex3f[8]
+'		vertices[0].position=New Vec3f( -1+x, 1+y,-1+z )'left front top
+'		vertices[1].position=New Vec3f(  1+x, 1+y,-1+z )'right front top
+'		vertices[2].position=New Vec3f(  1+x,-1+y,-1+z )'right front bottom
+'		vertices[3].position=New Vec3f( -1+x,-1+y,-1+z )'left front bottom
+'		vertices[4].position=New Vec3f( -1+x, 1+y, 1+z )'left back top
+'		vertices[5].position=New Vec3f( -1+x,-1+y, 1+z )'left back bottom
+' 		vertices[6].position=New Vec3f(  1+x, 1+y, 1+z )'right back top
+' 		vertices[7].position=New Vec3f(  1+x,-1+y, 1+z )'right back bottom
+'
+'
+''  Texture coordinates represent coordinates within the image, where 
+''	0,0=top left, 1,0=top right, 1,1=bottom right, 0,1=bottom left
+'		vertices[0].texCoord0 = New Vec2f(0,0)
+'		vertices[1].texCoord0 = New Vec2f(1,0)
+'		vertices[2].texCoord0 = New Vec2f(1,1)
+'		vertices[3].texCoord0 = New Vec2f(0,1)
+'		
+'		vertices[4].texCoord0 = New Vec2f(1,0)
+'		vertices[5].texCoord0 = New Vec2f(0,1)
+'		vertices[6].texCoord0 = New Vec2f(0,0)
+'		vertices[7].texCoord0 = New Vec2f(0,1)		 		
+'
+' 		Local inds:Int=0
+' 		For Local i:Int=0 Until 6
+'	 		If sides[i] = True Then inds+=6
+'	 	Next
+' 		
+'		Local indices:=New UInt[inds]
+'		
+'		Local cnt:Int=0
+'		'front
+'		If sides[0] = True
+'		indices[cnt]=0;cnt+=1
+'		indices[cnt]=1;cnt+=1
+'		indices[cnt]=2;cnt+=1
+'		indices[cnt]=0;cnt+=1
+'		indices[cnt]=2;cnt+=1
+'		indices[cnt]=3;cnt+=1
+'		End if
+'		If sides[1] = True
+'		' left side
+'		indices[cnt]=4;cnt+=1
+'		indices[cnt]=0;cnt+=1
+'		indices[cnt]=3;cnt+=1
+'		indices[cnt]=4;cnt+=1
+'		indices[cnt]=3;cnt+=1
+'		indices[cnt]=5;cnt+=1
+'		End If
+'		If sides[2] = True
+'		'back side
+'		indices[cnt]=6;cnt+=1
+'		indices[cnt]=4;cnt+=1
+'		indices[cnt]=5;cnt+=1
+'		indices[cnt]=6;cnt+=1
+'		indices[cnt]=5;cnt+=1
+'		indices[cnt]=7;cnt+=1
+'		End If
+'		If sides[3] = True
+'		'right side
+'		indices[cnt]=1;cnt+=1
+'		indices[cnt]=6;cnt+=1
+'		indices[cnt]=7;cnt+=1
+'		indices[cnt]=1;cnt+=1
+'		indices[cnt]=7;cnt+=1
+'		indices[cnt]=2;cnt+=1
+'		End If
+'		If sides[4] = True
+'		'top side
+'		indices[cnt]=0;cnt+=1
+'		indices[cnt]=4;cnt+=1
+'		indices[cnt]=6;cnt+=1
+'		indices[cnt]=0;cnt+=1
+'		indices[cnt]=6;cnt+=1
+'		indices[cnt]=1;cnt+=1
+'		End If
+'		If sides[5] = true
+'		'bottom side
+'		indices[cnt]=7;cnt+=1
+'		indices[cnt]=5;cnt+=1
+'		indices[cnt]=3;cnt+=1
+'		indices[cnt]=7;cnt+=1
+'		indices[cnt]=3;cnt+=1
+'		indices[cnt]=2;cnt+=1
+'		End If
+'				
+'		Return New Mesh( vertices,indices )		
+'		
+'	End Method
+'	
 	Method controls()
 		If Keyboard.KeyDown(Key.W) Then _camera.Move(0,0,.5)
 		If Keyboard.KeyDown(Key.S) Then _camera.Move(0,0,-.5)
