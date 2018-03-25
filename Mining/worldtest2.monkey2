@@ -6,6 +6,7 @@ Using std..
 Using mojo..
 Using mojo3d..
 
+
 Class chunk
 	Field model:Model
 	Field x:Int,y:Int,z:Int
@@ -32,7 +33,7 @@ Class MyWindow Extends Window
 	
 	Field _rectCanvas:Canvas
 	Field _rectImage:Image	
-
+'
  	Field chunkwidth:Int=16
  	Field chunkheight:Int=16
  	Field chunkdepth:Int=16
@@ -42,7 +43,6 @@ Class MyWindow Extends Window
 	Field worlddepth:Int=600
 	Field worldmap:Int[,,]
 
-	
 
 	Method New()
 
@@ -51,7 +51,7 @@ Class MyWindow Extends Window
 		Local a:Int = Int(ts.Slice(16))+Microsecs()
 		
 		SeedRnd(a)
-		
+		RenderTexture()	
 		worldmap = New Int[worldwidth,worldheight,worlddepth]
 		generateworld()
 		chunklist = New List<chunk>
@@ -75,11 +75,32 @@ Class MyWindow Extends Window
 		_light.CastsShadow = False 'slow! on low ends if true
 		_light.PointAt(New Vec3f(0,0,0))
 '		_light.RotateX( 90 )	'aim directional light downwards - 90 degrees.
-	 	
+		
+'		_rectImage=New Image( 256, 256 )
+'		RenderTexture()
+'
+'		_rectImage=New Image( 256, 256 )
+'	 
+'		_rectCanvas=New Canvas( _rectImage )
+
+'		'texture temp
+'		Local mesh:=createcube(0,0,0)
+'		_model = New Model()
+'		_model.Mesh=mesh
+'		_model.Materials = _model.Materials.Resize(mesh.NumMaterials)	
+'	 	Local sm:= New PbrMaterial()		
+'		_rectImage=New Image( 256, 256 )	 
+'		_rectCanvas=New Canvas( _rectImage )	
+'		sm.ColorTexture = _rectImage.Texture
+'	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
+'		'sm.CullMode=CullMode.None	  
+'		_model.Materials[mesh.NumMaterials - 1] = sm
+'	 	
 	 	'Local x:Int=0
 	 	'Local y:Int=0
 	 	'Local z:Int=0
-		'Local model:=createmodel(x*chunkwidth,y*chunkheight,z*chunkdepth)	 	
+		'Local model:=createmodel(x*chunkwidth,y*chunkheight,z*chunkdepth)	 
+		
 		updateworld()	 		
 	End Method
 	
@@ -103,9 +124,9 @@ Class MyWindow Extends Window
 			If worldmap[x2,y2,z2] <> 0 Then 
 				Local sides:Bool[] = New Bool[6]
 				If z2-1>=0 And worldmap[x2,y2,z2-1] <> 0 Then sides[0] = False Else sides[0] = True
-				If x2-1>=0 And worldmap[x2-1,y2,z2] <> 0 Then sides[1] = False Else sides[1] = True
-				If z2+1<chunkdepth And worldmap[x2,y2,z2+1] <> 0 Then sides[2] = False Else sides[2] = True
-				If x2+1<chunkwidth And worldmap[x2+1,y2,z2] <> 0 Then sides[3] = False Else sides[3] = True
+				If x2-1>=0 And worldmap[x2-1,y2,z2] <> 0 Then sides[3] = False Else sides[3] = True
+				If z2+1<chunkdepth And worldmap[x2,y2,z2+1] <> 0 Then sides[1] = False Else sides[1] = True
+				If x2+1<chunkwidth And worldmap[x2+1,y2,z2] <> 0 Then sides[2] = False Else sides[2] = True
 				If y2+1<chunkheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
 				If y2-1>=0 And worldmap[x2,y2-1,z2] <> 0 Then sides[5] = False Else sides[5] = True				
 				Local mesh2:=createcube(x2*2,y2*2,z2*2,sides)								
@@ -116,44 +137,38 @@ Class MyWindow Extends Window
 		Next 
 		' Here we create our model containing the chunk
 		chunkmesh.UpdateNormals()
+
+	
 		model=New Model
-		model.Mesh=chunkmesh
-		Local col:Color
-		Local r:Float=Rnd()
-		If r>.8
-		col = Color.Yellow.Blend(Color.White,Rnd())
-		Elseif r<.5
-		col = Color.Grey.Blend(Color.White,Rnd())
-		Else
-		col = Color.Brown.Blend(Color.White,Rnd())
-		End If	
-		
-		model.Material=New PbrMaterial( col )'Color.Green )
-		
-		Return model
+		'If there is no mesh created then return empty model
+		If chunkmesh.NumIndices = 0 Then Return model
+		'_model.Mesh=chunkmesh		
+		'_model.Material=New PbrMaterial( Color.Green )
 		'_model.Material.CullMode=CullMode.None
  		'_model.Move(2,0,0)
-'		_model.Mesh=chunkmesh
-'		_model.Materials = _model.Materials.Resize(chunkmesh.NumMaterials)	
-'
-'	 	Local sm:= New PbrMaterial()
-'		
-'		_rectImage=New Image( 256, 256 )
-'	 
-'		_rectCanvas=New Canvas( _rectImage )
-'	
-'		sm.ColorTexture = _rectImage.Texture
-'	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
-'		'sm.CullMode=CullMode.None
-'	 
-' 
-'		_model.Materials[chunkmesh.NumMaterials - 1] = sm
+		model.Mesh=chunkmesh
+		model.Materials = model.Materials.Resize(chunkmesh.NumMaterials)	
+
+	 	Local sm:= New PbrMaterial()
+		
+		'_rectImage=New Image( 256, 256 )
+	 
+		'_rectCanvas=New Canvas( _rectImage )
+	
+		sm.ColorTexture = _rectImage.Texture
+	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
+		'sm.CullMode=CullMode.None
+	 
+ 		
+		model.Materials[chunkmesh.NumMaterials - 1] = sm
+		Return model
 '				
 	End Method
 	
 	Method OnRender( canvas:Canvas ) Override
  
 		RequestRender()
+		RenderTexture()
 		'RenderTexture()
 		'_model.RotateY( 1 )
 		'_model.RotateZ( -1 )
@@ -333,7 +348,7 @@ Method createcube:Mesh(x:Float=0,y:Float=0,z:Float=0,sides:Bool[])
 	indices[cnt]=17;cnt+=1
 	indices[cnt]=18;cnt+=1
 	indices[cnt]=16;cnt+=1
-	indices[cnt=18;cnt+=1
+	indices[cnt]=18;cnt+=1
 	indices[cnt]=19;cnt+=1
 	End If
 	'bottom side
@@ -460,6 +475,7 @@ End Method
 	
 	Method RenderTexture()
 		If Not _rectCanvas Then
+			_rectImage = New Image(256,256)
 			_rectCanvas=New Canvas( _rectImage )
  
 		Endif
