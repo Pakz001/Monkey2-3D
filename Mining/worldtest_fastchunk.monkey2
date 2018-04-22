@@ -534,7 +534,7 @@ Class MyWindow Extends Window
 						gindices.AddLast(9+cnt)
 						gindices.AddLast(10+cnt)
 						gindices.AddLast(8+cnt)
-						gindices.AddLast(20+cnt)
+						gindices.AddLast(10+cnt)
 						gindices.AddLast(11+cnt)			
 						c+=6
 				'		indices[cnt]=8;cnt+=1
