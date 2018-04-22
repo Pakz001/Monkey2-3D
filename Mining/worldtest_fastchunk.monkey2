@@ -406,7 +406,7 @@ Class MyWindow Extends Window
 				
 				Local tox:Float=1.0/(640.0/32.0)
 				Local toy:Float=1.0/(480.0/32.0)
-				Local tx:Int=Rnd(5)
+				Local tx:Int=worldmap[x,y,z]'Rnd(5)
 				Local ty:Int=0
 				Local tx1:Float=tox*tx
 				Local ty1:Float=toy*ty
@@ -415,11 +415,11 @@ Class MyWindow Extends Window
 '				Local vertices:=New Vertex3f[24]
 				Local t:Vertex3f = New Vertex3f
 				t.position = New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )
-				t.texCoord0 = New Vec2f(0,0)
+				t.texCoord0 = New Vec2f(tx1,ty1)
 				gvertices.AddLast(t) 'Vec3f( -1+x, 1+(y2*2),-1+(z2*2) )'left front top
 				t = New Vertex3f
 				t.position = New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top	
-				t.texCoord0 = New Vec2f(tx2,0)
+				t.texCoord0 = New Vec2f(tx2,ty1)
 				gvertices.AddLast(t)
 				'gvertices[2].position=New Vec3f(  1+x,-1+(y2*2),-1+(z2*2) )'right front bottom
 				t = New Vertex3f
@@ -429,7 +429,7 @@ Class MyWindow Extends Window
 				'gvertices[3].position=New Vec3f( -1+x,-1+(y2*2),-1+(z2*2) )'left front bottom
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
-				t.texCoord0 = New Vec2f(0,ty2)
+				t.texCoord0 = New Vec2f(tx1,ty2)
 				gvertices.AddLast(t)
 				'back
 				'gvertices[4].position=New Vec3f(  1+x, 1+(y2*2), 1+(z2*2) )'right back top
@@ -1081,7 +1081,7 @@ End Method
 		For Local z:Int=0 Until worlddepth
 		For Local x:Int=0 Until worldwidth
 		For Local y:Int=0 Until 20
-			worldmap[x,y,z] = 1
+			If y<10 Then worldmap[x,y,z] = 5 Else worldmap[x,y,z] = 1
 		Next
 		Next
 		Next
@@ -1142,7 +1142,7 @@ End Method
 								End If
 							Next
 							'yer = 20
-							worldmap[x3,yer,z3] = 1
+							worldmap[x3,yer,z3] = 2
 						End If
 					End If
 				Next
@@ -1211,7 +1211,7 @@ End Method
 						If x2<=1 Or y2<1 Or z2<1 Or x2>=worldwidth-1 Or y2>=worldheight-1 Or z2>=worlddepth-1 Then Continue
 						'If Rnd() < .9 Then
 						If under=False Then
-							worldmap[x2,y2,z2] = 1
+							worldmap[x2,y2,z2] = 3
 						Else
 							If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
 						End if
@@ -1229,7 +1229,7 @@ End Method
 						If x2<=1 Or y2<1 Or z2<1 Or x2>=worldwidth-1 Or y2>=worldheight-1 Or z2>=worlddepth-1 Then Continue
 						'If Rnd() < .9 Then
 						If under=False Then
-							worldmap[x2,y2,z2] = 1
+							worldmap[x2,y2,z2] = 3
 						Else
 							If worldmap[x2,y2,z2] = 1 Then worldmap[x2,y2,z2] = 0
 						End if
