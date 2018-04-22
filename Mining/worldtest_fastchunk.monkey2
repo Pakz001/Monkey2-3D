@@ -392,102 +392,126 @@ Class MyWindow Extends Window
 '				Local vertices:=New Vertex3f[24]
 				Local t:Vertex3f = New Vertex3f
 				t.position = New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )
+				t.texCoord0 = New Vec2f(0,0)
 				gvertices.AddLast(t) 'Vec3f( -1+x, 1+(y2*2),-1+(z2*2) )'left front top
-				t = New Vertex3f
+				
 				t.position = New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top	
+				t.texCoord0 = New Vec2f(1,0)
 				gvertices.AddLast(t)
 				'gvertices[2].position=New Vec3f(  1+x,-1+(y2*2),-1+(z2*2) )'right front bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
+				t.texCoord0 = New Vec2f(1,1)
 				gvertices.AddLast(t)
 				'gvertices[3].position=New Vec3f( -1+x,-1+(y2*2),-1+(z2*2) )'left front bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
+				t.texCoord0 = New Vec2f(0,1)
 				gvertices.AddLast(t)
 				'back
 				'gvertices[4].position=New Vec3f(  1+x, 1+(y2*2), 1+(z2*2) )'right back top
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
+				t.texCoord0 = New Vec2f(0,0)
 				gvertices.AddLast(t)
 				'gvertices[5].position=New Vec3f( -1+x, 1+(y2*2), 1+(z2*2) )'left back top
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
+				t.texCoord0 = New Vec2f(1,0)
 				gvertices.AddLast(t)
 				'gvertices[6].position=New Vec3f( -1+x,-1+(y2*2), 1+(z2*2) )'left back bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom
+				t.texCoord0 = New Vec2f(1,1)
 				gvertices.AddLast(t)
 				'gvertices[7].position=New Vec3f(  1+x,-1+(y2*2), 1+(z2*2) )'right back bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
+				t.texCoord0 = New Vec2f(0,1)
 				gvertices.AddLast(t)
 				'right
 				'vertices[8].position=New Vec3f(  1+x, 1+(y2*2),-1+(z2*2) )'right front top
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top
+				t.texCoord0 = New Vec2f(0,0)
 				gvertices.AddLast(t)
 				'vertices[9].position=New Vec3f(  1+x, 1+(y2*2), 1+(z2*2) )'right back top
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
+				t.texCoord0 = New Vec2f(1,0)
 				gvertices.AddLast(t)
 				'vertices[10].position=New Vec3f( 1+x,-1+(y2*2), 1+(z2*2) )'right back bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( 1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
+				t.texCoord0 = New Vec2f(1,1)
 				gvertices.AddLast(t)
 				'vertices[11].position=New Vec3f( 1+x,-1+(y2*2),-1+(z2*2) )'right front bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( 1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
+				t.texCoord0 = New Vec2f(0,1)				
 				gvertices.AddLast(t)
 				'left
 				'vertices[12].position=New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
+				t.texCoord0 = New Vec2f(0,0)
 				gvertices.AddLast(t)
 				'vertices[13].position=New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
+				t.texCoord0 = New Vec2f(1,0)
 				gvertices.AddLast(t)
 				'vertices[14].position=New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
+				t.texCoord0 = New Vec2f(1,1)				
 				gvertices.AddLast(t)
 				'vertices[15].position=New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom
+				t.texCoord0 = New Vec2f(0,1)
 				gvertices.AddLast(t)
 				'top
 				'vertices[16].position=New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
+				t.texCoord0 = New Vec2f(0,0)
 				gvertices.AddLast(t)
 				'vertices[17].position=New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
+				t.texCoord0 = New Vec2f(1,0)
 				gvertices.AddLast(t)
 				'vertices[18].position=New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top
+				t.texCoord0 = New Vec2f(1,1)
 				gvertices.AddLast(t)
 				'vertices[19].position=New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
+				t.texCoord0 = New Vec2f(0,1)
 				gvertices.AddLast(t)
 				'bottom
 				'vertices[20].position=New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
+				t.texCoord0 = New Vec2f(0,0)
 				gvertices.AddLast(t)
 				'vertices[21].position=New Vec3f(  1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
+				t.texCoord0 = New Vec2f(1,0)
 				gvertices.AddLast(t)
 				'vertices[22].position=New Vec3f(  1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
-				t = New Vertex3f
+				
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
+				t.texCoord0 = New Vec2f(1,1)
 				gvertices.AddLast(t)
 				'vertices[23].position=New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom			
-				t = New Vertex3f
+				
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom	
+				t.texCoord0 = New Vec2f(0,1)				
 				gvertices.AddLast(t)
 						
 										
@@ -632,31 +656,29 @@ Class MyWindow Extends Window
 		'If there is no mesh created then return empty model
 		If chunkmesh.NumIndices = 0 Then Return model
 		model.Mesh=chunkmesh		
-		model.Material=New PbrMaterial( Color.Green )
-		model.Material.CullMode=CullMode.None
- 		'_model.Move(2,0,0)
-		
-		Return model
-		model.Mesh=chunkmesh
-		model.Materials = model.Materials.Resize(chunkmesh.NumMaterials)	
 
+		model.Materials = model.Materials.Resize(chunkmesh.NumMaterials)	
+ 
 	 	Local sm:= New PbrMaterial()
 		
-		'_rectImage=New Image( 256, 256 )
-	 
-		'_rectCanvas=New Canvas( _rectImage )
-		'_rectCanvas.DrawImage(mytile.image[Rnd(3),0],0,0)				
-		'_rectCanvas.Flush()
-			
-		'sm.ColorTexture = _rectImage.Texture
-		
-		'sm.ColorTexture = _rectImage.Texture
+		'Local _mat:=New PbrMaterial()
 		sm.ColorTexture = mytile.image[0,Rnd(5)].Texture
-	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
+		sm.ColorTexture.Flags = TextureFlags.FilterMipmap
+		'_mat.ScaleTextureMatrix( 500,500 )
+		
+		'model = New Model(chunkmesh,_mat)
+		'image
+		'rectimage = mytile.image[0,3]
+		
+		'sm.ColorTexture = rectimage.Texture
+		
+		'sm.ColorTexture = mytile.image[0,3].Texture
+	 	'sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
 		'sm.CullMode=CullMode.None
 	 
- 		
+ 
 		model.Materials[chunkmesh.NumMaterials - 1] = sm
+		
 		Return model
 '				
 	End Method
@@ -674,7 +696,7 @@ Class MyWindow Extends Window
 		updateworld()
 		'_scene.Update()
 		_scene.Render( canvas)
- 		 		
+ 		canvas.DrawImage(mytile.image[0,0],0,0)		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
 		canvas.DrawText( "mx:"+_camera.Position.x/chunkwidth+", my:"+_camera.Position.y/chunkheight+", mz:"+_camera.Position.z/chunkdepth,Width/2,0 )
 		canvas.DrawText( "W/S/A/D - Cursor U/D/L/R - Reload for new random map.",0,30)
