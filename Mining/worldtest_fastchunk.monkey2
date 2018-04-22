@@ -404,6 +404,12 @@ Class MyWindow Extends Window
 				If y2+1<worldheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
 				If y2-1>=0 And worldmap[x2,y2-1,z2] <> 0 Then sides[5] = False Else sides[5] = True				
 				
+				Local con:Bool=False
+				For Local i:Int=0 Until 6
+					If sides[i] = True Then con=True
+				Next
+				If con=False Then Continue
+				
 				Local tox:Float=1.0/(640.0/32.0)
 				Local toy:Float=1.0/(480.0/32.0)
 				Local tx:Int=worldmap[x,y,z]'Rnd(5)
