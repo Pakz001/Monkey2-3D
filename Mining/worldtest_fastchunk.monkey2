@@ -298,6 +298,8 @@ Class MyWindow Extends Window
 	Field gindices:List<UInt>
 	Field gvertices:List<Vertex3f>
 
+	Field waitupdateworld:Int
+
 	Method New()
 
 
@@ -695,7 +697,7 @@ Class MyWindow Extends Window
 		'sm.ColorTexture = _rectImage.Texture
 		sm.ColorTexture = mytile.atlasim.Texture'mytile.image[0,Rnd(5)].Texture
 	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
-		sm.CullMode=CullMode.None
+		'sm.CullMode=CullMode.Back
 	 
  		
 		model.Materials[chunkmesh.NumMaterials - 1] = sm
@@ -741,7 +743,10 @@ Class MyWindow Extends Window
 		'_model.RotateX( 1 )
 		'controls()
 		Fly(_camera)
-		updateworld()
+		If waitupdateworld<Millisecs() Then
+			updateworld()
+			waitupdateworld = Millisecs()+250
+		End If
 		'_scene.Update()
 		_scene.Render( canvas)
  		'canvas.DrawImage(mytile.image[0,0],0,0)		
@@ -780,13 +785,17 @@ Method updateworld()
 		'For Local i:int=0 Until 6
 		'chunklist.Add(New chunk(5,5,5,createmodel(i*chunkwidth,i*chunkheight,i*chunkdepth))						)
 		'Next
-		
+		Local time:Int=Millisecs()+16
 		For Local i:Int=0 Until mlx.Length
 			Local x:Int=mlx.Get(i)			
 			Local y:Int=mly.Get(i)
 			Local z:Int=mlz.Get(i)'			
 			'Local model:=createmodel(x*chunkwidth,y*chunkheight,z*chunkdepth)
 			chunklist.Add(New chunk(x,y,z,createmodel(x*chunkwidth,y*chunkheight,z*chunkdepth))						)
+			If Millisecs() > time 
+				waitupdateworld = Millisecs()+1000
+				Exit
+			End If
 		Next
 
 		' If distance between chunks and camera is to large then remove them		
@@ -1271,9 +1280,9 @@ End Method
 		Endif
 		
 		If Keyboard.KeyDown( Key.W )
-			entity.MoveZ( .4 )
+			entity.MoveZ( .18 )
 		Else If Keyboard.KeyDown( Key.S )
-			entity.MoveZ( -.4 )
+			entity.MoveZ( -.18 )
 		Endif
 			
 	End Function
