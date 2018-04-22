@@ -763,14 +763,13 @@ End Method
 	Method generateworld()
 		'underground
 		
-		For Local z:Int=0 Until 20'worlddepth
-		For Local x:Int=0 Until 20'worldwidth
+		For Local z:Int=0 Until worlddepth
+		For Local x:Int=0 Until worldwidth
 		For Local y:Int=0 Until 20
 			worldmap[x,y,z] = 1
 		Next
 		Next
 		Next
-Return
 		'dig out (dists) circles on circles
 		For Local i:Int=0 Until (worldwidth+worlddepth)/12
 			Local x1:Int=Rnd(worldwidth)
