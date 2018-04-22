@@ -19,7 +19,8 @@ Class tile
 	Field tilewidth:Int=32,tileheight:Int=32
 	Field image:Image[,] = New Image[1,5]
 	Field icanvas:Canvas[,] = New Canvas[1,5]
-
+	Field atlasim:Image
+	Field atlascan:Canvas
 	Field width:Int,height:Int
 	Field map:Int[][]
 	Field a:Int[][]
@@ -49,6 +50,9 @@ Class tile
 		icanvas[i,ii]=New Canvas( image[i,ii] )        	
 		Next
 		Next
+		
+		
+
 	End Method
 	
 	Method create()
@@ -65,6 +69,16 @@ Class tile
 			icanvas[i,ii].Flush()
 		Next
 		Next
+		' create the atlas for texturing		
+		atlasim = New Image(320,240)
+		atlascan = New Canvas(atlasim)
+		atlascan.Clear(Color.Blue)
+		atlascan.Color=Color.White
+		For Local ax:Int=0 Until 5
+			atlascan.DrawImage(image[0,ax],ax*32,0)
+		Next
+		atlascan.Flush()
+				
 	End Method
 	Method generate(spacing:Int)
 		' Put a number of stone points on the map
@@ -323,7 +337,7 @@ Class MyWindow Extends Window
 		'create light
 		'
 		_light=New Light
-		_light.Move(110,110,120)
+		_light.Move(60,60,60)
 		_light.CastsShadow = False 'slow! on low ends if true
 		_light.PointAt(New Vec3f(0,0,0))
 '		_light.RotateX( 90 )	'aim directional light downwards - 90 degrees.
@@ -388,7 +402,14 @@ Class MyWindow Extends Window
 				If y2+1<chunkheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
 				If y2-1>=0 And worldmap[x2,y2-1,z2] <> 0 Then sides[5] = False Else sides[5] = True				
 				
-				
+				Local tox:Float=1.0/(640.0/32.0)
+				Local toy:Float=1.0/(480.0/32.0)
+				Local tx:Int=Rnd(5)
+				Local ty:Int=0
+				Local tx1:Float=tox*tx
+				Local ty1:Float=toy*ty
+				Local tx2:Float=(tox*(tx+1))
+				Local ty2:Float=(toy*(ty+1))
 '				Local vertices:=New Vertex3f[24]
 				Local t:Vertex3f = New Vertex3f
 				t.position = New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )
@@ -396,122 +417,122 @@ Class MyWindow Extends Window
 				gvertices.AddLast(t) 'Vec3f( -1+x, 1+(y2*2),-1+(z2*2) )'left front top
 				t = New Vertex3f
 				t.position = New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top	
-				t.texCoord0 = New Vec2f(1,0)
+				t.texCoord0 = New Vec2f(tx2,0)
 				gvertices.AddLast(t)
 				'gvertices[2].position=New Vec3f(  1+x,-1+(y2*2),-1+(z2*2) )'right front bottom
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
-				t.texCoord0 = New Vec2f(1,1)
+				t.texCoord0 = New Vec2f(tx2,ty2)
 				gvertices.AddLast(t)
 				'gvertices[3].position=New Vec3f( -1+x,-1+(y2*2),-1+(z2*2) )'left front bottom
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
-				t.texCoord0 = New Vec2f(0,1)
+				t.texCoord0 = New Vec2f(0,ty2)
 				gvertices.AddLast(t)
 				'back
 				'gvertices[4].position=New Vec3f(  1+x, 1+(y2*2), 1+(z2*2) )'right back top
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
-				t.texCoord0 = New Vec2f(0,0)
+				t.texCoord0 = New Vec2f(tx1,ty1)
 				gvertices.AddLast(t)
 				'gvertices[5].position=New Vec3f( -1+x, 1+(y2*2), 1+(z2*2) )'left back top
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
-				t.texCoord0 = New Vec2f(1,0)
+				t.texCoord0 = New Vec2f(tx2,ty1)
 				gvertices.AddLast(t)
 				'gvertices[6].position=New Vec3f( -1+x,-1+(y2*2), 1+(z2*2) )'left back bottom
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom
-				t.texCoord0 = New Vec2f(1,1)
+				t.texCoord0 = New Vec2f(tx2,ty2)
 				gvertices.AddLast(t)
 				'gvertices[7].position=New Vec3f(  1+x,-1+(y2*2), 1+(z2*2) )'right back bottom
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
-				t.texCoord0 = New Vec2f(0,1)
+				t.texCoord0 = New Vec2f(tx1,ty2)
 				gvertices.AddLast(t)
 				'right
 				'vertices[8].position=New Vec3f(  1+x, 1+(y2*2),-1+(z2*2) )'right front top
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top
-				t.texCoord0 = New Vec2f(0,0)
+				t.texCoord0 = New Vec2f(tx1,ty1)
 				gvertices.AddLast(t)
 				'vertices[9].position=New Vec3f(  1+x, 1+(y2*2), 1+(z2*2) )'right back top
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
-				t.texCoord0 = New Vec2f(1,0)
+				t.texCoord0 = New Vec2f(tx2,ty1)
 				gvertices.AddLast(t)
 				'vertices[10].position=New Vec3f( 1+x,-1+(y2*2), 1+(z2*2) )'right back bottom
 				t = New Vertex3f
 				t.position =New Vec3f( 1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
-				t.texCoord0 = New Vec2f(1,1)
+				t.texCoord0 = New Vec2f(tx2,ty2)
 				gvertices.AddLast(t)
 				'vertices[11].position=New Vec3f( 1+x,-1+(y2*2),-1+(z2*2) )'right front bottom
 				t = New Vertex3f
 				t.position =New Vec3f( 1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
-				t.texCoord0 = New Vec2f(0,1)				
+				t.texCoord0 = New Vec2f(tx1,ty2)				
 				gvertices.AddLast(t)
 				'left
 				'vertices[12].position=New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
-				t.texCoord0 = New Vec2f(0,0)
+				t.texCoord0 = New Vec2f(tx1,ty1)
 				gvertices.AddLast(t)
 				'vertices[13].position=New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
-				t.texCoord0 = New Vec2f(1,0)
+				t.texCoord0 = New Vec2f(tx2,ty1)
 				gvertices.AddLast(t)
 				'vertices[14].position=New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
-				t.texCoord0 = New Vec2f(1,1)				
+				t.texCoord0 = New Vec2f(tx2,ty2)				
 				gvertices.AddLast(t)
 				'vertices[15].position=New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom
-				t.texCoord0 = New Vec2f(0,1)
+				t.texCoord0 = New Vec2f(tx1,ty2)
 				gvertices.AddLast(t)
 				'top
 				'vertices[16].position=New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2), 1+(z2*2) )'left back top
-				t.texCoord0 = New Vec2f(0,0)
+				t.texCoord0 = New Vec2f(tx1,ty1)
 				gvertices.AddLast(t)
 				'vertices[17].position=New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2), 1+(z2*2) )'right back top
-				t.texCoord0 = New Vec2f(1,0)
+				t.texCoord0 = New Vec2f(tx2,ty1)
 				gvertices.AddLast(t)
 				'vertices[18].position=New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2), 1+(y2*2),-1+(z2*2) )'right front top
-				t.texCoord0 = New Vec2f(1,1)
+				t.texCoord0 = New Vec2f(tx2,ty2)
 				gvertices.AddLast(t)
 				'vertices[19].position=New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2), 1+(y2*2),-1+(z2*2) )'left front top
-				t.texCoord0 = New Vec2f(0,1)
+				t.texCoord0 = New Vec2f(tx1,ty2)
 				gvertices.AddLast(t)
 				'bottom
 				'vertices[20].position=New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2),-1+(z2*2) )'left front bottom
-				t.texCoord0 = New Vec2f(0,0)
+				t.texCoord0 = New Vec2f(tx1,ty1)
 				gvertices.AddLast(t)
 				'vertices[21].position=New Vec3f(  1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2),-1+(z2*2) )'right front bottom
-				t.texCoord0 = New Vec2f(1,0)
+				t.texCoord0 = New Vec2f(tx2,ty1)
 				gvertices.AddLast(t)
 				'vertices[22].position=New Vec3f(  1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
 				t = New Vertex3f
 				t.position =New Vec3f(  1+(x2*2),-1+(y2*2), 1+(z2*2) )'right back bottom
-				t.texCoord0 = New Vec2f(1,1)
+				t.texCoord0 = New Vec2f(tx2,ty2)
 				gvertices.AddLast(t)
 				'vertices[23].position=New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom			
 				t = New Vertex3f
 				t.position =New Vec3f( -1+(x2*2),-1+(y2*2), 1+(z2*2) )'left back bottom	
-				t.texCoord0 = New Vec2f(0,1)				
+				t.texCoord0 = New Vec2f(tx1,ty2)				
 				gvertices.AddLast(t)
 						
 										
@@ -672,7 +693,7 @@ Class MyWindow Extends Window
 		'sm.ColorTexture = _rectImage.Texture
 		
 		'sm.ColorTexture = _rectImage.Texture
-		sm.ColorTexture = mytile.image[0,Rnd(5)].Texture
+		sm.ColorTexture = mytile.atlasim.Texture'mytile.image[0,Rnd(5)].Texture
 	 	sm.ColorTexture.Flags = TextureFlags.FilterMipmap	
 		sm.CullMode=CullMode.None
 	 
@@ -723,7 +744,8 @@ Class MyWindow Extends Window
 		updateworld()
 		'_scene.Update()
 		_scene.Render( canvas)
- 		canvas.DrawImage(mytile.image[0,0],0,0)		
+ 		'canvas.DrawImage(mytile.image[0,0],0,0)		
+ 		'canvas.DrawImage(mytile.atlasim,0,0)
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
 		canvas.DrawText( "mx:"+_camera.Position.x/chunkwidth+", my:"+_camera.Position.y/chunkheight+", mz:"+_camera.Position.z/chunkdepth,Width/2,0 )
 		canvas.DrawText( "W/S/A/D - Cursor U/D/L/R - Reload for new random map.",0,30)
