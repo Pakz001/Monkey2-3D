@@ -785,7 +785,7 @@ Method updateworld()
 		'For Local i:int=0 Until 6
 		'chunklist.Add(New chunk(5,5,5,createmodel(i*chunkwidth,i*chunkheight,i*chunkdepth))						)
 		'Next
-		Local time:Int=Millisecs()+16
+		Local time:Int=Millisecs()+5
 		For Local i:Int=0 Until mlx.Length
 			Local x:Int=mlx.Get(i)			
 			Local y:Int=mly.Get(i)
