@@ -399,9 +399,9 @@ Class MyWindow Extends Window
 				Local sides:Bool[] = New Bool[6]
 				If z2-1>=0 And worldmap[x2,y2,z2-1] <> 0 Then sides[0] = False Else sides[0] = True
 				If x2-1>=0 And worldmap[x2-1,y2,z2] <> 0 Then sides[3] = False Else sides[3] = True
-				If z2+1<chunkdepth And worldmap[x2,y2,z2+1] <> 0 Then sides[1] = False Else sides[1] = True
-				If x2+1<chunkwidth And worldmap[x2+1,y2,z2] <> 0 Then sides[2] = False Else sides[2] = True
-				If y2+1<chunkheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
+				If z2+1<worlddepth And worldmap[x2,y2,z2+1] <> 0 Then sides[1] = False Else sides[1] = True
+				If x2+1<worldwidth And worldmap[x2+1,y2,z2] <> 0 Then sides[2] = False Else sides[2] = True
+				If y2+1<worldheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
 				If y2-1>=0 And worldmap[x2,y2-1,z2] <> 0 Then sides[5] = False Else sides[5] = True				
 				
 				Local tox:Float=1.0/(640.0/32.0)
