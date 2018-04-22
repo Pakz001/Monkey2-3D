@@ -303,6 +303,9 @@ Class MyWindow Extends Window
 		RenderTexture()	
 		worldmap = New Int[worldwidth,worldheight,worlddepth]
 		generateworld()
+		
+		
+		
 		chunklist = New List<chunk>
 		'get scene
 		'
@@ -378,10 +381,11 @@ Class MyWindow Extends Window
 				Local sides:Bool[] = New Bool[6]
 				If z2-1>=0 And worldmap[x2,y2,z2-1] <> 0 Then sides[0] = False Else sides[0] = True
 				If x2-1>=0 And worldmap[x2-1,y2,z2] <> 0 Then sides[3] = False Else sides[3] = True
-				If z2+1<chunkdepth And worldmap[x2,y2,z2+1] <> 0 Then sides[1] = False Else sides[1] = True
-				If x2+1<chunkwidth And worldmap[x2+1,y2,z2] <> 0 Then sides[2] = False Else sides[2] = True
-				If y2+1<chunkheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
-				If y2-1>=0 And worldmap[x2,y2-1,z2] <> 0 Then sides[5] = False Else sides[5] = True				
+				If z2+1<worlddepth And worldmap[x2,y2,z2+1] <> 0 Then sides[1] = False Else sides[1] = True
+				If x2+1<worldwidth And worldmap[x2+1,y2,z2] <> 0 Then sides[2] = False Else sides[2] = True
+				If y2+1<worldheight And worldmap[x2,y2+1,z2] <> 0 Then sides[4] = False Else sides[4] = True
+				If y2-1>=0 And worldmap[x2,y2-1,z2] <> 0 Then sides[5] = False Else sides[5] = True	
+
 				Local mesh2:=createcube(x2*2,y2*2,z2*2,sides)								
 				chunkmesh.AddMesh(mesh2)
 			endif
@@ -437,7 +441,7 @@ Class MyWindow Extends Window
 		Fly(_camera)
 		updateworld()
 		'_scene.Update()
-		_scene.Render( canvas,_camera )
+		_scene.Render( canvas)
  		 		
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
 		canvas.DrawText( "mx:"+_camera.Position.x/chunkwidth+", my:"+_camera.Position.y/chunkheight+", mz:"+_camera.Position.z/chunkdepth,Width/2,0 )
@@ -759,14 +763,14 @@ End Method
 	Method generateworld()
 		'underground
 		
-		For Local z:Int=0 Until worlddepth
-		For Local x:Int=0 Until worldwidth
+		For Local z:Int=0 Until 20'worlddepth
+		For Local x:Int=0 Until 20'worldwidth
 		For Local y:Int=0 Until 20
 			worldmap[x,y,z] = 1
 		Next
 		Next
 		Next
-
+Return
 		'dig out (dists) circles on circles
 		For Local i:Int=0 Until (worldwidth+worlddepth)/12
 			Local x1:Int=Rnd(worldwidth)
