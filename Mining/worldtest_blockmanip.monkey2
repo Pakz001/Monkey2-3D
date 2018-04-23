@@ -814,9 +814,9 @@ Class MyWindow Extends Window
 		Local cx:Int=(bullet.Position.x/2)/chunkwidth
 		Local cz:Int=(bullet.Position.z/2)/chunkdepth
 		Local cy:Int=(bullet.Position.y/2)/chunkheight
-		Local bx:Int=(bullet.Position.x/2)
-		Local bz:Int=(bullet.Position.z/2)
-		Local by:Int=(bullet.Position.y/2)
+		Local bx:Int=((bullet.Position.x+1)/2)'+1
+		Local bz:Int=((bullet.Position.z+1)/2)'+1
+		Local by:Int=((bullet.Position.y+1)/2)'+1
 		If bx<0 Or by<0 Or bz<0 Or bx>=worldwidth Or by>=worldheight Or bz>=worlddepth Then Return False
 		If worldmap[bx,by,bz] > 0
 '			worldmap[bx,by,bz] = 0
