@@ -827,11 +827,80 @@ Class MyWindow Extends Window
 		Local bx:Int=(blockh.Position.x/2)
 		Local bz:Int=(blockh.Position.z/2)
 		Local by:Int=(blockh.Position.y/2)
-		Print chunkwidth+","+chunkheight+","+chunkdepth
-		Print bx+","+by+","+bz
+		'Print chunkwidth+","+chunkheight+","+chunkdepth
+		Local x:Int=bx-((bx/chunkwidth)*chunkwidth)
+		Local y:Int=by-((by/chunkheight)*chunkheight)
+		Local z:Int=bz-((bz/chunkdepth)*chunkdepth)
+		'Print x+","+y+","+z
+			Local crx:Stack<Int> = New Stack<Int>
+			Local cry:Stack<Int> = New Stack<Int>
+			Local crz:Stack<Int> = New Stack<Int>
+			
 			worldmap[bx,by,bz] = 0
-			' If distance between chunks and camera is to large then remove them		
+			' If distance between chunks and camera is to large then remove them
 			For Local i:=Eachin chunklist
+				' remove chunks at edges
+				If y=0
+					If i.x = cx And i.y = cy-1 And i.z = cz
+					crx.Push(cx)
+					cry.Push(cy-1)
+					crz.Push(cz)
+					i.model.Destroy()
+					i.deleteme = True
+					End If
+				End If
+				If z=0
+					If i.x = cx And i.y = cy And i.z = cz-1
+					crx.Push(cx)
+					cry.Push(cy)
+					crz.Push(cz-1)
+					i.model.Destroy()
+					i.deleteme = True
+					End If
+				End If
+				If x=0
+					If i.x = cx-1 And i.y = cy And i.z = cz
+					crx.Push(cx-1)
+					cry.Push(cy)
+					crz.Push(cz)
+						
+					i.model.Destroy()
+					i.deleteme = True
+					End If
+				End If
+
+				If y=15
+					If i.x = cx And i.y = cy+1 And i.z = cz
+					crx.Push(cx)
+					cry.Push(cy+1)
+					crz.Push(cz)
+						
+					i.model.Destroy()
+					i.deleteme = True
+					End If
+				End If
+				If z=15
+					If i.x = cx And i.y = cy And i.z = cz+1
+					crx.Push(cx)
+					cry.Push(cy)
+					crz.Push(cz+1)
+						
+					i.model.Destroy()
+					i.deleteme = True
+					End If
+				End If
+				If x=15
+					If i.x = cx+1 And i.y = cy And i.z = cz
+					crx.Push(cx+1)
+					cry.Push(cy)
+					crz.Push(cz)
+						
+					i.model.Destroy()
+					i.deleteme = True
+					End If
+				End If
+
+				' remove the main chunk
 				If i.x = cx And i.y = cy And i.z = cz
 					i.model.Destroy()
 					i.deleteme = True
@@ -841,9 +910,18 @@ Class MyWindow Extends Window
 				If i.deleteme = True Then chunklist.Remove(i)
 			Next
 			chunklist.Add(New chunk(cx,cy,cz,createmodel(cx*chunkwidth,cy*chunkheight,cz*chunkdepth)))
-		
-	End Method
+			
+			For Local i:Int=0 Until crx.Length
+				Local a:Int=crx.Get(i)
+				Local b:Int=cry.Get(i)
+				Local c:Int=crz.Get(i)
+				chunklist.Add(New chunk(a,b,c,createmodel(a*chunkwidth,b*chunkheight,c*chunkdepth)))
+			Next
+			
+			'add eddge chunks if needed
+ 			'Print x+","+y+","+z
 
+	End Method
 Method updateworld()	 	
 		Local x2:Int=(_camera.Position.x/2) / chunkwidth
 		Local z2:Int=(_camera.Position.z/2) / chunkdepth
