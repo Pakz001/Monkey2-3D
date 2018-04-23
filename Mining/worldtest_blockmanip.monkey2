@@ -339,23 +339,25 @@ Class MyWindow Extends Window
 		'get scene
 		'
 		_scene=Scene.GetCurrent()
+		_scene.AmbientLight = Color.Red*0.75
  
 		'create camera
 		'
 		_camera=New Camera
 		_camera.Near=.1
 		_camera.Far=1000
-		_camera.Move( 50,60,35 )
-		_camera.PointAt(New Vec3f(0,50,0))
+		_camera.Move( 50,80,35 )
+		_camera.PointAt(New Vec3f(60,50,60))
 		
 		
 		'create light
 		'
 		_light=New Light
-		_light.Move(60,60,60)
-		_light.CastsShadow = False 'slow! on low ends if true
-		_light.PointAt(New Vec3f(0,0,0))
-'		_light.RotateX( 90 )	'aim directional light downwards - 90 degrees.
+		_light.Move(-20,100,-20)
+		_light.Range = 1000
+		_light.CastsShadow = True 'slow! on low ends if true
+'		_light.PointAt(New Vec3f(0,0,0))
+		_light.RotateX( 90 )	'aim directional light downwards - 90 degrees.
 		
 '		_rectImage=New Image( 256, 256 )
 '		RenderTexture()
@@ -779,7 +781,7 @@ Class MyWindow Extends Window
 		If bullettime<Millisecs()
 			bullet.Position = New Vec3f(_camera.X,_camera.Y,_camera.Z)
 			bulletfv = _camera.Basis.k
-			bullettime = Millisecs()+200
+			bullettime = Millisecs()+100
 		End If
 	
 		If bullettime>Millisecs() Then 
