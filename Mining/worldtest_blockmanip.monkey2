@@ -784,6 +784,7 @@ Class MyWindow Extends Window
 	
 		If bullettime>Millisecs() Then 
 			bullet.Move(bulletfv)
+			bullet.Move(bulletfv)
 			If highlightblockatbullet()
 				bullettime = Millisecs()
 			End If
@@ -816,6 +817,7 @@ Class MyWindow Extends Window
 		Local bx:Int=(bullet.Position.x/2)
 		Local bz:Int=(bullet.Position.z/2)
 		Local by:Int=(bullet.Position.y/2)
+		If bx<0 Or by<0 Or bz<0 Or bx>=worldwidth Or by>=worldheight Or bz>=worlddepth Then Return False
 		If worldmap[bx,by,bz] > 0
 '			worldmap[bx,by,bz] = 0
 '			' If distance between chunks and camera is to large then remove them		
