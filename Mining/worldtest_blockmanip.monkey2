@@ -305,7 +305,7 @@ Class MyWindow Extends Window
 	Field bullettime:Int
 
 	Field blockh:Model
-	
+	Field blockhblinktime:Int
 
 	Method New()
 
@@ -314,7 +314,7 @@ Class MyWindow Extends Window
 		bullet =New Model( mymesh,material )
 		bullet.Visible = false
 		mymesh = Mesh.CreateBox( New Boxf( -1.1,-1.1,-1.1,1.1,1.1,1.1),1,1,1 )
-		material =New PbrMaterial( New Color( Rnd(0.0,0.6),0,0) )
+		material =New PbrMaterial( New Color( Rnd(0.0,0.6),0,0,.5) )
 		blockh =New Model( mymesh,material )
 
 		Local t:Time=Time.Now()
@@ -753,7 +753,7 @@ Class MyWindow Extends Window
 	End Method
 	
 	Method OnRender( canvas:Canvas ) Override
- 		
+ 	
 		RequestRender()
 		'RenderTexture()
 		'RenderTexture()
@@ -762,6 +762,16 @@ Class MyWindow Extends Window
 		'_model.RotateX( 1 )
 		'controls()
 		Fly(_camera)
+	
+	
+		'Field blockhblinktime:Int
+		'blink our selection block
+		If blockhblinktime<Millisecs()
+			If blockh.Visible = True Then blockh.Visible = False Else blockh.Visible=True
+			blockhblinktime = Millisecs()+300
+			
+		End If
+	
 	
 		If Keyboard.KeyReleased(Key.V)
 			removeblockatbullet()
@@ -785,6 +795,11 @@ Class MyWindow Extends Window
 		End If
 		'_scene.Update()
 		_scene.Render( canvas)
+		
+		'draw our cursor
+		canvas.Color = Color.White
+		canvas.DrawRect((Width/2)-8,Height/2,18,3)
+		canvas.DrawRect(Width/2,(Height/2)-8,3,18)
  		'canvas.DrawImage(mytile.image[0,0],0,0)		
  		'canvas.DrawImage(mytile.atlasim,0,0)
 		canvas.DrawText( "Width="+Width+", Height="+Height+", FPS="+App.FPS,0,0 )
