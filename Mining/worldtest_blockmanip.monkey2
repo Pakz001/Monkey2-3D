@@ -304,11 +304,18 @@ Class MyWindow Extends Window
 	Field bulletfv:Vec3f = New Vec3f()
 	Field bullettime:Int
 
+	Field blockh:Model
+	
+
 	Method New()
 
 		Local mymesh := Mesh.CreateBox( New Boxf( -.2,-.2,-.2,.2,.2,.2),1,1,1 )
 		Local material:=New PbrMaterial( New Color( Rnd(0.0,0.6),0,0) )
 		bullet =New Model( mymesh,material )
+		bullet.Visible = false
+		mymesh = Mesh.CreateBox( New Boxf( -1.1,-1.1,-1.1,1.1,1.1,1.1),1,1,1 )
+		material =New PbrMaterial( New Color( Rnd(0.0,0.6),0,0) )
+		blockh =New Model( mymesh,material )
 
 		Local t:Time=Time.Now()
 		Local ts:String=t.ToString()
@@ -746,7 +753,7 @@ Class MyWindow Extends Window
 	End Method
 	
 	Method OnRender( canvas:Canvas ) Override
- 
+ 		
 		RequestRender()
 		'RenderTexture()
 		'RenderTexture()
@@ -757,12 +764,20 @@ Class MyWindow Extends Window
 		Fly(_camera)
 	
 		If Keyboard.KeyReleased(Key.V)
+			removeblockatbullet()
+		End If
+		If bullettime<Millisecs()
 			bullet.Position = New Vec3f(_camera.X,_camera.Y,_camera.Z)
 			bulletfv = _camera.Basis.k
 			bullettime = Millisecs()+200
 		End If
 	
-		If bullettime>Millisecs() Then bullet.Move(bulletfv)
+		If bullettime>Millisecs() Then 
+			bullet.Move(bulletfv)
+			If highlightblockatbullet()
+				bullettime = Millisecs()
+			End If
+		End If
 	
 		If waitupdateworld<Millisecs() Then
 			updateworld()
@@ -777,6 +792,56 @@ Class MyWindow Extends Window
 		canvas.DrawText( "W/S/A/D - Cursor U/D/L/R - Reload for new random map.",0,30)
 		
 		If Keyboard.KeyReleased(Key.Escape) Then App.Terminate()
+	End Method
+
+	Method highlightblockatbullet:Bool()
+		Local cx:Int=(bullet.Position.x/2)/chunkwidth
+		Local cz:Int=(bullet.Position.z/2)/chunkdepth
+		Local cy:Int=(bullet.Position.y/2)/chunkheight
+		Local bx:Int=(bullet.Position.x/2)
+		Local bz:Int=(bullet.Position.z/2)
+		Local by:Int=(bullet.Position.y/2)
+		If worldmap[bx,by,bz] > 0
+'			worldmap[bx,by,bz] = 0
+'			' If distance between chunks and camera is to large then remove them		
+'			For Local i:=Eachin chunklist
+'				If i.x = cx And i.y = cy And i.z = cz
+'					i.model.Destroy()
+'					i.deleteme = True
+'				End If
+'			Next
+'			For Local i:=Eachin chunklist
+'				If i.deleteme = True Then chunklist.Remove(i)
+'			Next
+'			chunklist.Add(New chunk(cx,cy,cz,createmodel(cx*chunkwidth,cy*chunkheight,cz*chunkdepth)))
+			blockh.Position = New Vec3f(bx*2,by*2,bz*2)
+			Return True
+		End if
+		Return False
+	End Method
+
+	Method removeblockatbullet()
+		Local cx:Int=(blockh.Position.x/2)/chunkwidth
+		Local cz:Int=(blockh.Position.z/2)/chunkdepth
+		Local cy:Int=(blockh.Position.y/2)/chunkheight
+		Local bx:Int=(blockh.Position.x/2)
+		Local bz:Int=(blockh.Position.z/2)
+		Local by:Int=(blockh.Position.y/2)
+		Print chunkwidth+","+chunkheight+","+chunkdepth
+		Print bx+","+by+","+bz
+			worldmap[bx,by,bz] = 0
+			' If distance between chunks and camera is to large then remove them		
+			For Local i:=Eachin chunklist
+				If i.x = cx And i.y = cy And i.z = cz
+					i.model.Destroy()
+					i.deleteme = True
+				End If
+			Next
+			For Local i:=Eachin chunklist
+				If i.deleteme = True Then chunklist.Remove(i)
+			Next
+			chunklist.Add(New chunk(cx,cy,cz,createmodel(cx*chunkwidth,cy*chunkheight,cz*chunkdepth)))
+		
 	End Method
 
 Method updateworld()	 	
