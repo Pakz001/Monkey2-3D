@@ -1,8 +1,8 @@
 #Import "<std>"
 #Import "<mojo>"
 
-' Frustrum Culling
-' Every tile would be a mesh. The frustrum culling would 
+' Frustum Culling
+' Every tile would be a mesh. The frustum culling would 
 ' find what is visible in the camera and what not would not
 ' be drawn.
 '
