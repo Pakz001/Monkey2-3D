@@ -457,9 +457,10 @@ Class MyWindow Extends Window
 		RenderTexture()	
 		worldmap = New Int[worldwidth,worldheight,worlddepth]
 		generateworld()
+		generatedungeons()
 		agemap()
 		generatetrees()
-		generatedungeons()
+
 		
 		chunklist = New List<chunk>
 		'get scene
