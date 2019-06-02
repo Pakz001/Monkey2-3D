@@ -20,7 +20,7 @@ Class MyWindow Extends Window
 
 	Field boxmap:=New Model[8,6]
 
-	Field px:Int,py:Int
+
 
 	Method New( title:String="Simple mojo app",width:Int=640,height:Int=480,flags:WindowFlags=WindowFlags.Resizable )
 
@@ -34,6 +34,7 @@ Class MyWindow Extends Window
 		tempmap[4] = "10000001"
 		tempmap[5] = "11111111"
 		map = New Int[tempmap[0].Length,tempmap.GetSize(0)]
+		boxmap = New Model[tempmap[0].Length,tempmap.GetSize(0)]
 		For Local i:Int=0 Until map.GetSize(0)
 		For Local j:Int=0 Until tempmap.Length
 			If tempmap[j][i] = 49 Then map[i,j] = 1 Else map[i,j] = 0
@@ -126,7 +127,7 @@ Class MyWindow Extends Window
 		Local oldy:Int = mycamera.LocalPosition.z/4
 		' check keys and move or turn if needed
 		If Keyboard.KeyReleased(Key.Up) Then mycamera.Move(0,0,4)
-		If Keyboard.KeyReleased(Key.Down) Then mycamera.Move(0,0,-4)
+		If Keyboard.KeyReleased(Key.Down) Then mycamera.Move(0,0,-4)	
 		If Keyboard.KeyReleased(Key.Right) Then mycamera.RotateY(-90)
 		If Keyboard.KeyReleased(Key.Left) Then mycamera.RotateY(90)
 		' get our new location
@@ -161,6 +162,7 @@ Class MyWindow Extends Window
 	End Method
 
 End Class
+
 
 Function Main()
 
