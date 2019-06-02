@@ -55,7 +55,7 @@ Class MyWindow Extends Window
 		
 		mybox.Rotate(3,3,3) 'rotate the box (x,y,z)
 		
-		myscene.Render( canvas,mycamera ) 'render the 3d scene
+		myscene.Render( canvas ) 'render the 3d scene
 		
 		If Keyboard.KeyReleased(Key.Escape) Then App.Terminate()
 		
